@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -155,20 +154,27 @@ return [
     |
     */
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         */
+    'providers' => [Yajra\DataTables\DataTablesServiceProvider::class],
+    'aliases' => [
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+    ],
 
-        /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-    ])->toArray(),
+    'providers' => ServiceProvider::defaultProviders()
+        ->merge([
+            /*
+             * Package Service Providers...
+             */
+
+            /*
+             * Application Service Providers...
+             */
+            App\Providers\AppServiceProvider::class,
+            App\Providers\AuthServiceProvider::class,
+            // App\Providers\BroadcastServiceProvider::class,
+            App\Providers\EventServiceProvider::class,
+            App\Providers\RouteServiceProvider::class,
+        ])
+        ->toArray(),
 
     /*
     |--------------------------------------------------------------------------
@@ -181,8 +187,9 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
-
+    'aliases' => Facade::defaultAliases()
+        ->merge([
+            // 'Example' => App\Facades\Example::class,
+        ])
+        ->toArray(),
 ];

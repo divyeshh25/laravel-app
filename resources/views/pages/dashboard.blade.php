@@ -1,4 +1,5 @@
 <x-link class="layout-navbar-fixed layout-fixed  layout-footer-fixed"></x-link>
+
 {{-- Fixed Navbar = layout-navbar-fixed --}}
 {{-- Fixed Sidebar = layout-fixed --}}
 {{-- Fixed Footer = layout-footer-fixed --}}
@@ -8,6 +9,7 @@
     <x-navbar.footer></x-navbar.footer>
     <section class="content-wrapper">
         <div class="container-fluid">
+
             <h5 class="mb-2">Info Box</h5>
             <div class="row">
                 <x-cards.sm-card bgcolor='bg-info' icon="fas fa-home" msg1='Home' msg2='10001' />

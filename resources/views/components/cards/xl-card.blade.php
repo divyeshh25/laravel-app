@@ -1,4 +1,4 @@
-<div class="col-lg-4 col-6">
+<div class="col-lg-3 col-6">
     <!-- small card -->
     <div class="small-box {{ $bgcolor }}">
         <div class="inner">

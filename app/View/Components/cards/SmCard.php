@@ -14,6 +14,7 @@ class SmCard extends Component
     public $msg2 = '';
     public function __construct($icon,$bgcolor,$msg1,$msg2)
     {
+
         $this->icon = $icon;
         $this->bgcolor = $bgcolor;
         $this->msg1 = $msg1;

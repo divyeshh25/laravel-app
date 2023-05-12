@@ -3,11 +3,11 @@
     @section('form-data')
         <div class="card-body login-card-body">
             <p class="login-box-msg">Recover your password now.</p>
-            <x-form.input name="password" type="password" class="fas fa-key"></x-form.input>
-            <x-form.input name="retype" type="password" class="fas fa-key"></x-form.input>
+            <x-form.input name="password" type="password" class="fas fa-key" value="{{ old('email') }}"></x-form.input>
+            <x-form.input name="retype" type="password" class="fas fa-key" value="{{ old('email') }}"></x-form.input>
             <div class="row">
                 <div class="col-12">
-                    <x-form.button type="submit" name="Change password"></x-form.button>
+                    <x-form.button type="submit" name="Change password" ></x-form.button>
                 </div>
             </div>
             <p class="mt-3 mb-1">

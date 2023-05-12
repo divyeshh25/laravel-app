@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,45 +17,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[LoginController::class, 'load']);
 
 // LoginSystem Rotue
-Route::get('login',function(){
-    return view('login.login');
-});
+Route::get('/login',[LoginController::class, 'load'])->name('login');
+Route::post('login',[LoginController::class,'check']);
+
+
 Route::get('register',function(){
     return view('login.register');
 });
+Route::post('register',[RegisterController::class,'store']);
+
+Route::get('logout',[LoginController::class,'destroy']);
+
 Route::get('forgot-password',function(){
     return view('login.forgot-password');
-});
+})->middleware('guest');
 Route::get('recover-password',function(){
     return view('login.recover-password');
-});
+})->middleware('guest');
 Route::get('dashboard',function(){
     return view('pages.dashboard');
-});
+})->middleware('auth')
+->name('dashboard');
 
-// Sidebar Navbar Footer
-Route::get('normal-sidebar',function(){
-        return view('pages.dynamic-page',[
-            'data'=> "layout-navbar-fixed  layout-footer-fixed"
-        ]);
-});
-Route::get('fixed-sidebar',function(){
-    return view('pages.dynamic-page',[
-        'data'=> "layout-fixed layout"
-    ]);
-});
-Route::get('normal-navbar',function(){
-    return view('pages.dynamic-page',[
-        'data'=> "layout-footer-fixed"
-    ]);
-});
-Route::get('fixed-navbar',function(){
-    return view('pages.dynamic-page',[
-        'data'=> "layout-navbar-fixed"
+Route::group([
+    'middleware' => 'auth',
+], function () {
+    Route::resources([
+        'categories' => CategoryController::class,
+        'posts' => PostController::class,
     ]);
 });

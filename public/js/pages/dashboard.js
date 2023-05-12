@@ -11,7 +11,7 @@ $(function () {
   'use strict'
 
   // Make the dashboard widgets sortable Using jquery UI
-  $('.connectedSortable').sortable({
+  /* $('.connectedSortable').sortable({
     placeholder: 'sort-highlight',
     connectWith: '.connectedSortable',
     handle: '.card-header, .nav-tabs',
@@ -26,7 +26,7 @@ $(function () {
     handle: '.handle',
     forcePlaceholderSize: true,
     zIndex: 999999
-  })
+  }) */
 
   // bootstrap WYSIHTML5 - text editor
   $('.textarea').summernote()
@@ -65,7 +65,7 @@ $(function () {
     RU: 3000 // Russia
   }
   // World map by jvectormap
-  $('#world-map').vectorMap({
+  /* $('#world-map').vectorMap({
     map: 'usa_en',
     backgroundColor: 'transparent',
     regionStyle: {
@@ -89,16 +89,16 @@ $(function () {
         el.html(el.html() + ': ' + visitorsData[code] + ' new visitors')
       }
     }
-  })
+  }) */
 
   // Sparkline charts
-  var sparkline1 = new Sparkline($('#sparkline-1')[0], { width: 80, height: 50, lineColor: '#92c1dc', endColor: '#ebf4f9' })
+  /* var sparkline1 = new Sparkline($('#sparkline-1')[0], { width: 80, height: 50, lineColor: '#92c1dc', endColor: '#ebf4f9' })
   var sparkline2 = new Sparkline($('#sparkline-2')[0], { width: 80, height: 50, lineColor: '#92c1dc', endColor: '#ebf4f9' })
   var sparkline3 = new Sparkline($('#sparkline-3')[0], { width: 80, height: 50, lineColor: '#92c1dc', endColor: '#ebf4f9' })
 
   sparkline1.draw([1000, 1200, 920, 927, 931, 1027, 819, 930, 1021])
   sparkline2.draw([515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921])
-  sparkline3.draw([15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21])
+  sparkline3.draw([15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21]) */
 
   // The Calender
   $('#calendar').datetimepicker({

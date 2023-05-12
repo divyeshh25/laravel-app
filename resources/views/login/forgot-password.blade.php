@@ -4,10 +4,10 @@
         <div class="card-body login-card-body">
             <p class="login-box-msg">Here you can easily retrieve a new password.</p>
 
-            <x-form.input name="email" type="email" class="fas fa-envelope"></x-form.input>
+            <x-form.input name="email" type="email" class="fas fa-envelope" value="{{ old('email') }}"></x-form.input>
             <div class="row">
                 <div class="col-12">
-                    <x-form.button type="submit" name="Request New Password"></x-form.button>
+                    <x-form.button type="submit" name="Request New Password" value="{{ old('email') }}"></x-form.button>
                 </div>
                 <!-- /.col -->
             </div>

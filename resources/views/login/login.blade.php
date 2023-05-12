@@ -1,14 +1,22 @@
 
 <x-form.login-layout>
-    @extends('components.form.form', ['action' => '#', 'method' => 'get'])
+    @extends('components.form.form', ['action' => '/login', 'method' => 'POST'])
+
     @section('form-data')
+    @csrf
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
-            <x-form.input name="email" type="email" class="fas fa-envelope"/>
-            <x-form.input name="password" type="password" class="fas fa-key"/>
+            <x-form.input name="email" type="email" class="fas fa-envelope" value="{{ old('email') }}"/>
+            @error('email')
+                <p class="text-sm text-danger">* {{ $message }}</p>
+            @enderror
+            <x-form.input name="password" type="password" class="fas fa-key" value="{{ old('password') }}"/>
+            @error('password')
+                <p class="text-sm text-danger">* {{ $message }}</p>
+            @enderror
             <div class="row">
-                <x-form.checkbox name="remeber" type="checkbox"/>
+                {{-- <x-form.checkbox name="remeber" type="checkbox"/> --}}
                 <div class="col-4">
                     <x-form.button type="submit" name="login"/>
                 </div>

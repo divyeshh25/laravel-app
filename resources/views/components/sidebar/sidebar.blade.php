@@ -1,7 +1,7 @@
 {{-- <body {{ $attributes->merge(['class' => 'sidebar-mini']) }}> --}}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="/dashboard" class="brand-link">
       <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
@@ -35,12 +35,30 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="/dashboard" class="nav-link active">
+          <li class="nav-item ">
+            <a href="/dashboard"
+            class="nav-link
+            {{ request()->is('dashboard') ? 'active' : '' }}
+            ">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route("categories.index") }}" class="nav-link {{Route::is('categories.index') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Category
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route("posts.index") }}" class="nav-link {{Route::is('posts.index') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Post
               </p>
             </a>
           </li>
@@ -53,7 +71,7 @@
               </p>
             </a>
           </li> --}}
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -61,7 +79,7 @@
                 <i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right">6</span>
               </p>
-            </a>
+            </a> --}}
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/normal-sidebar" class="nav-link">
