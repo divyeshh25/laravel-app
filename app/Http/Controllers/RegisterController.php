@@ -15,8 +15,9 @@ class RegisterController extends Controller
             'email'=>'required|email',
             'password'=>'required|min:8|max:24'
         ]);
-        // dd($data);
+
         $save = User::create($data);
+        dd($data);
         if($save){
             return redirect("/login");
         }

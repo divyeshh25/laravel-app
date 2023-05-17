@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="/dashboard" class="brand-link">
       <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">{{Str::ucfirst(Auth::user()->roles->pluck('name')->implode('/')) }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -14,7 +14,7 @@
           <img src="{{ asset('images/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a class="d-block">{{ Str::ucfirst(Auth::user()->name) }}</a>
         </div>
       </div>
 
@@ -46,6 +46,7 @@
               </p>
             </a>
           </li>
+          @role('admin')
           <li class="nav-item">
             <a href="{{ route("categories.index") }}" class="nav-link {{Route::is('categories.index') ? 'active' : ''}}">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -54,6 +55,7 @@
               </p>
             </a>
           </li>
+          @endrole
           <li class="nav-item">
             <a href="{{ route("posts.index") }}" class="nav-link {{Route::is('posts.index') ? 'active' : ''}}">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -62,6 +64,25 @@
               </p>
             </a>
           </li>
+          @role('admin')
+          <li class="nav-item">
+            <a href="{{ route("roles.index") }}" class="nav-link {{Route::is('roles.index') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+               Role & Permission
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route("users.index") }}" class="nav-link {{Route::is('users.index') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                User
+              </p>
+            </a>
+          </li>
+          @endrole
           {{-- <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>

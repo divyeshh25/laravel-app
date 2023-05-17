@@ -16,11 +16,13 @@
         <div class="card bg-light mt-4 h-auto">
             <div class="card-body">
                 <div class="flex">
-                    <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Category</span>
-                    <span class="mailbox-attachment-close">
-                        <a class="btn btn-sm btn-primary mb-3" href="{{ route('posts.create') }}">
-                            Add <i class="fas fa-plus"></i></a>
-                    </span>
+                    <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Posts</span>
+                    @can('write post')
+                        <span class="mailbox-attachment-close">
+                            <a class="btn btn-sm btn-primary mb-3" href="{{ route('posts.create') }}">
+                                Add <i class="fas fa-plus"></i></a>
+                        </span>
+                    @endcan
                 </div>
                 <table id="postTable" class="display">
                     <thead>
@@ -32,7 +34,9 @@
                             <th>Status</th>
                             <th>Posted By</th>
                             <th>Image</th>
-                            <th>Action</th>
+                            @role(['admin', 'editor','writer'])
+                                <th>Action</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -45,14 +49,23 @@
                                 <td>{{ $post->status == 0 ? 'Active' : 'Inactive' }}</td>
                                 <td>{{ $post->user->name }}</td>
                                 <td><img src="{{ asset($post->image) }}" height="50" width="50"></td>
-                                <td class="flex">
-                                    {{-- href="post/edit/{{$category->id}}" --}}
-                                    <a href="{{ route('posts.edit', $post->id) }}" data-id="{{ $post->id }}" id="viewEdit" style="cursor:pointer;border:none"><i
-                                            class="fas fa-pencil text-primary"></i></a>
-                                    <span class="mx-2" data-id="{{ $post->id }}" id="delete"
-                                        style="cursor:pointer;border:none"><i
-                                            class="fas fa-trash text-danger"></i></span>
-                                </td>
+                                @role(['admin', 'editor','writer'])
+                                    <td class="flex">
+                                        {{-- href="post/edit/{{$category->id}}" --}}
+                                        @can('edit post')
+                                        <a href="{{ route('posts.edit', $post->id) }}" data-id="{{ $post->id }}"
+                                            id="viewEdit" style="cursor:pointer;border:none"><i
+                                                class="fas fa-pencil text-primary"></i></a>
+
+                                        @endcan
+                                        @can('write post')
+                                                <span class="mx-2" data-id="{{ $post->id }}" id="delete"
+                                                    style="cursor:pointer;border:none"><i
+                                                        class="fas fa-trash text-danger"></i></span>
+                                        @endcan
+
+                                    </td>
+                                @endrole
                             </tr>
                         @endforeach
                     </tbody>

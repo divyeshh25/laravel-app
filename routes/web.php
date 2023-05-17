@@ -4,8 +4,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\User;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
+use Symfony\Component\HttpFoundation\Response;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,10 +46,19 @@ Route::get('dashboard',function(){
 ->name('dashboard');
 
 Route::group([
-    'middleware' => 'auth',
+    'middleware' => ['auth','admin'],
 ], function () {
     Route::resources([
         'categories' => CategoryController::class,
-        'posts' => PostController::class,
+        'users' => UserController::class,
+        'roles' => RoleController::class
     ]);
 });
+Route::resource('posts',PostController::class);
+Route::post('/updateStatus/{id}',[UserController::class,'updateStatus']);
+Route::post('/updatePermission/{id}',[RoleController::class,'updatePermission']);
+
+Route::get('/404',function(){
+    return view('404');
+});
+

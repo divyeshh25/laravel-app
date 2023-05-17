@@ -12,7 +12,7 @@
             </div>
             <form action="{{ $action }}" method="{{ $method }}">
                 @csrf
-                @method('{{ $method2 }}')
+                {{-- @method('{{ $method2 }}') --}}
                 <div class="modal-body">
                     {{-- <x-form.input type="text" value="" name="cat_id" class="fas fa-pencil" /> --}}
                     <input class="form-control" type="text"  name="{{ $nameId }}"

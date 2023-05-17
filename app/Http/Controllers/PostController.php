@@ -15,8 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category','user')->get();
-        return view('post.index',compact('posts'));
+        $posts = Post::with('category', 'user')->get();
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -34,11 +34,8 @@ class PostController extends Controller
     public function store(BlogPost $request)
     {
         $request->all();
-        // dd($request->file('addImg'));
         $imgName = $request->file('addImg')->getClientOriginalName();
-        $request->file('addImg')->move(public_path('BlogImage'),$imgName);
-        // dd($request->file('addImg')->extension());
-        // $request->addImg->move(public_path('blogImage',$request->file('addImg')));
+        $request->file('addImg')->move(public_path('BlogImage'), $imgName);
         Post::create([
             'title' => $request->addTitle,
             'excerpt' => $request->addExcerpt,
@@ -47,12 +44,11 @@ class PostController extends Controller
             'title' => $request->addTitle,
             'category_id' => $request->addCat,
             'user_id' => Auth::user()->id,
-            'image' => 'BlogImage/'.$imgName
-
+            'image' => 'BlogImage/' . $imgName,
         ]);
-        session()->flash('successPost', "Post Added");
-        $posts = Post::with('category','user')->get();
-        return view('post.index',compact('posts'));
+        session()->flash('successPost', 'Post Added');
+        $posts = Post::with('category', 'user')->get();
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -70,7 +66,7 @@ class PostController extends Controller
     {
         // $post = Post::findOrFail($post);
         $categories = Category::all();
-        return view('post.edit',compact(['post','categories']));
+        return view('post.edit', compact(['post', 'categories']));
     }
 
     /**
@@ -83,9 +79,14 @@ class PostController extends Controller
         $post->body = $request->editBody;
         $post->status = $request->editStatus;
         $post->category_id = $request->editCat;
+        if ($request->has('editImg')) {
+            $imgName = $request->file('editImg')->getClientOriginalName();
+            $request->file('editImg')->move(public_path('BlogImage'), $imgName);
+            $post->image = 'BlogImage/' . $imgName;
+        }
         $post->save();
-        session()->flash('successPost', "Post Update");
-        $posts = Post::with('category','user')->get();
+        session()->flash('successPost', 'Post Update');
+        $posts = Post::with('category', 'user')->get();
         return redirect('/posts')->with(compact('posts'));
     }
 
@@ -95,6 +96,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        session()->flash('successPost', "Post Delete");
+        session()->flash('successPost', 'Post Delete');
     }
 }
