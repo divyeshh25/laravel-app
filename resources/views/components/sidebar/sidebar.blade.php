@@ -2,88 +2,106 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/dashboard" class="brand-link">
-      <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">{{Str::ucfirst(Auth::user()->roles->pluck('name')->implode('/')) }}</span>
+        <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+        <span
+            class="brand-text font-weight-light">{{ Str::ucfirst(Auth::user()->roles->pluck('name')->implode('/')) }}</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ asset('images/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ asset('images/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a class="d-block">{{ Str::ucfirst(Auth::user()->name) }}</a>
+            </div>
         </div>
-        <div class="info">
-          <a class="d-block">{{ Str::ucfirst(Auth::user()->name) }}</a>
-        </div>
-      </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                    aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item ">
-            <a href="/dashboard"
-            class="nav-link
+                <li class="nav-item ">
+                    <a href="/dashboard"
+                        class="nav-link
             {{ request()->is('dashboard') ? 'active' : '' }}
             ">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-              </p>
-            </a>
-          </li>
-          @role('admin')
-          <li class="nav-item">
-            <a href="{{ route("categories.index") }}" class="nav-link {{Route::is('categories.index') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Category
-              </p>
-            </a>
-          </li>
-          @endrole
-          <li class="nav-item">
-            <a href="{{ route("posts.index") }}" class="nav-link {{Route::is('posts.index') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Post
-              </p>
-            </a>
-          </li>
-          @role('admin')
-          <li class="nav-item">
-            <a href="{{ route("roles.index") }}" class="nav-link {{Route::is('roles.index') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-               Role & Permission
-              </p>
-            </a>
-          </li>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                @role('admin')
+                    <li class="nav-item">
+                        <a href="{{ route('categories.index') }}"
+                            class="nav-link {{ Route::is('categories.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                Category
+                            </p>
+                        </a>
+                    </li>
+                @endrole
+                <li class="nav-item">
+                    <a href="{{ route('posts.index') }}"
+                        class="nav-link {{ Route::is('posts.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Post
+                        </p>
+                    </a>
+                </li>
+                @role('admin')
+                    <li class="nav-item">
+                        <a href="{{ route('roles.index') }}"
+                            class="nav-link {{ Route::is('roles.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                Role & Permission
+                            </p>
+                        </a>
+                    </li>
 
-          <li class="nav-item">
-            <a href="{{ route("users.index") }}" class="nav-link {{Route::is('users.index') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                User
-              </p>
-            </a>
-          </li>
-          @endrole
-          {{-- <li class="nav-item">
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}"
+                            class="nav-link {{ Route::is('users.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                User
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('comments.index') }}"
+                            class="nav-link {{ Route::is('comments.index') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                Comments
+                            </p>
+                        </a>
+                    </li>
+                @endrole
+                {{-- <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
@@ -92,7 +110,7 @@
               </p>
             </a>
           </li> --}}
-          {{-- <li class="nav-item">
+                {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -101,34 +119,34 @@
                 <span class="badge badge-info right">6</span>
               </p>
             </a> --}}
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/normal-sidebar" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Normal Side bar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/fixed-sidebar" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Side bar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/normal-navbar" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Normal Navbar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/fixed-navbar" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Navbar</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          {{-- <li class="nav-item">
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/normal-sidebar" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Normal Side bar</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/fixed-sidebar" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Fixed Side bar</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/normal-navbar" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Normal Navbar</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/fixed-navbar" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Fixed Navbar</p>
+                        </a>
+                    </li>
+                </ul>
+                </li>
+                {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -661,10 +679,10 @@
               <p>Informational</p>
             </a>
           </li> --}}
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
-  </aside>
+</aside>
 {{-- </body> --}}

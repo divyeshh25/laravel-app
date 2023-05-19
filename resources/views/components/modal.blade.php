@@ -18,6 +18,7 @@
                     <input class="form-control" type="text"  name="{{ $nameId }}"
                         placeholder="Enter Category Name:" id="{{ $nameId }}"/>
                     <p id="{{ $errName }}-name" class="text-danger text-sm"></p>
+                    @if($btnname == 'butsave')
                     <div class="flex form-check">
                             <input class="form-check-input" type="radio" name="{{ $statusName }}" id="status1" value='0'
                                 checked>
@@ -28,9 +29,9 @@
                             <label class="form-check-label ml-4" for="flexRadioDefault2">
                                 Inactive
                             </label>
-
                     </div>
                     <p id="{{ $errName }}-status" class="text-danger text-sm"></p>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

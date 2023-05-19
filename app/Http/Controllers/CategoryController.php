@@ -17,8 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::with('user')->get();
-        return view('category.index',compact('categories'));
-
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -34,9 +33,8 @@ class CategoryController extends Controller
      */
     public function store(StorePost $request)
     {
-
         Category::create($request->all() + ['user_id' => Auth::user()->id]);
-        session()->flash('success', "Category Added");
+        session()->flash('success', 'Category Added');
     }
 
     /**
@@ -61,9 +59,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $category->name = $request->name;
-        $category->status = $request->status;
         $category->save();
-        session()->flash('success', "Category Update");
+        session()->flash('success', 'Category Update');
     }
 
     /**
@@ -72,6 +69,11 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        session()->flash('success', "Category Delete");
+        session()->flash('success', 'Category Delete');
+    }
+
+    public function updateStatus(Category $category)
+    {
+        $category->update(['status'=>request()->status]);
     }
 }

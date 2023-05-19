@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE | LoginSystem</title>
+    <title>LoginSystem</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -20,7 +20,7 @@
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href=""><b>Admin</b>LTE</a>
+            <a href="/"><b>Blogo</b>Pedia</a>
         </div>
     </div>
 </body>

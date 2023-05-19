@@ -12,14 +12,15 @@ class RegisterController extends Controller
     {
         $data = request()->validate([
             'name'=>'required|min:2',
-            'email'=>'required|email',
-            'password'=>'required|min:8|max:24'
+            'email'=>'required|email|unique:users,email',
+            'password'=>'required|min:8|max:24|same:retype',
         ]);
-
         $save = User::create($data);
-        dd($data);
+        $save->assignRole('visitor');
+
+        // dd($data);
         if($save){
-            return redirect("/login");
+            return redirect("/login")->with('successLogin','');
         }
     }
 }

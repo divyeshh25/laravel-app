@@ -5,11 +5,11 @@
 <script src="/toastr/build/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-    <style>
-    .permission{
-        font-size:23px;
+    <style>.permission {
+        font-size: 23px;
         font-weight: 900;
     }
+
     .switch-toggle {
         height: 40px;
     }
@@ -90,6 +90,9 @@
                     </thead>
                     <tbody>
                         @foreach ($roles as $role)
+                            @if ($role->name == 'admin')
+                                @continue
+                            @endif
                             <tr>
                                 <td>{{ Str::ucfirst($role->name) }}</td>
                                 <td>{{ $role->updated_at->format('F j, Y, g:i a') }}</td>
@@ -143,10 +146,8 @@
         </div>
     </div>
 </section>
-<x-role-modal id="EditRole" title="Edit Role" btnName="edit"
-    nameId="editname" errName="edit" />
-<x-role-modal id="AddRole" title="Add Role" btnName="add"
-    nameId="addname" errName="add" />
+<x-role-modal id="EditRole" title="Edit Role" btnName="edit" nameId="editname" errName="edit" />
+<x-role-modal id="AddRole" title="Add Role" btnName="add" nameId="addname" errName="add" />
 
 <script>
     $('#userTable').DataTable();
@@ -174,7 +175,7 @@
         });
     }
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         // Add user modal
         $('#add').on('click', function() {
             var name = $('#addname').val();
@@ -190,7 +191,7 @@
                     _token: '{{ csrf_token() }}',
                     type: 1,
                     name: name,
-                    permission:permission,
+                    permission: permission,
                 },
                 cache: false,
 
@@ -210,7 +211,7 @@
         });
 
 
-
+        // delete roles
         $(document).on('click', '#delete', function() {
             var id = $(this).attr("data-id");
             var url = "{{ route('roles.destroy', '/id') }}";

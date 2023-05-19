@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+
 
 class LoginController extends Controller
 {
@@ -15,11 +17,13 @@ class LoginController extends Controller
         ]);
         // User::create($data);
         if (auth()->attempt($data)) {
-            return redirect('/dashboard');
+            if(auth()->user()->hasRole('visitor'))
+                return redirect('/');
+            else
+                return redirect('/dashboard');
         }
         return back()
-            ->withInput()
-            ->withErrors('error', 'Invalid!');
+            ->withInput()->withErrors(['Invalid'=>'Invalid Credentials']);
     }
     public function load()
     {

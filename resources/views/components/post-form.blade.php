@@ -5,7 +5,6 @@
         @if ($otherMethod != '')
             @method('PATCH')
         @endif
-        {{-- {{ $categories }} --}}
         <div class="form-group">
             <label for="">Select Category</label>
             <select class="custom-select" id="{{ $iDName }}Cat" name="{{ $iDName }}Cat">

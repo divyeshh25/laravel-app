@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -12,8 +13,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id','!=',auth()->id())->with('roles')->get();
-        return view('user.index', compact('users'));
+        $roles = Role::all();
+        $users = User::where('id', '!=', auth()->id())
+            ->with('roles')
+            ->get();
+        return view('user.index', compact('users', 'roles'));
     }
 
     /**
@@ -58,14 +62,14 @@ class UserController extends Controller
     {
         // dd(request());
         $data = request()->validate([
-            'name'=> 'required',
-            'email'=>'required|email',
-            'status' => 'required'
+            'name' => 'required',
+            'email' => 'required|email',
+            'status' => 'required',
         ]);
         // dd($data);
         $user->syncRoles([request()->status]);
         $user->update($data);
-        session()->flash('successUser','User Updated');
+        session()->flash('successUser', 'User Updated');
     }
 
     /**
@@ -80,12 +84,18 @@ class UserController extends Controller
     public function updateStatus(Request $request, string $id)
     {
         $user = User::find($id);
-        if ($request->status == 'add') {
-            $user->givePermissionTo($request->value);
-            session()->flash('successUser', ucfirst($user->name) . ' have permission to ' . strtoupper($request->value));
-        } else {
-            $user->revokePermissionTo($request->value);
-            session()->flash('successUser', ucfirst($user->name) . ' have remove permission to ' . strtoupper($request->value));
+        $permissions = $user->getPermissionsViaRoles();
+        if (!$permissions->contains('name', $request->value)) {
+            if ($request->status == 'add') {
+                $user->givePermissionTo($request->value);
+                session()->flash('successUser', ucfirst($user->name) . ' have permission to ' . strtoupper($request->value));
+            } else {
+                $user->revokePermissionTo($request->value);
+                session()->flash('successUser', ucfirst($user->name) . ' have remove permission to ' . strtoupper($request->value));
+            }
+        }
+        else {
+            session()->flash('successUser', 'You can not edit this permission bcz this permission via role');
         }
     }
 }

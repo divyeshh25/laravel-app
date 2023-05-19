@@ -18,12 +18,14 @@ class PostForm extends Component
     public $iDName='';
     public $otherMethod = null;
     public $categories;
-    public function __construct($btnType, $iDName,$data,$otherMethod=null)
+    public $post;
+    public function __construct($btnType, $iDName,$data,$otherMethod=null,$post=null)
     {
         $this->btnType = $btnType;
         $this->iDName = $iDName;
         $this->otherMethod = $otherMethod;
         $this->categories = $data;
+        $this->post = $post;
         // dd($this->data);
     }
 

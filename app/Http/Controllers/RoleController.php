@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -31,14 +32,13 @@ class RoleController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'name'=>'required|unique:roles,name'
+            'name' => 'required|unique:roles,name',
         ]);
-        $role = Role::create(['name'=>$request->name]);
-        if($request->permission != null)
-        {
+        $role = Role::create(['name' => $request->name]);
+        if ($request->permission != null) {
             $role->givePermissionTo($request->permission);
         }
-        session()->flash('successRole','Add Role & it\'s Permissions');
+        session()->flash('successRole', 'Add Role & it\'s Permissions');
     }
 
     /**
@@ -70,20 +70,24 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $role->delete();
-        session()->flash('successRole','Delete Roles');
-        // $role->removeRole();
+        $users = User::role($role->name)->get();
+        foreach ($users as $user) {
+            $user->syncRoles('visitor');
+        }
+        $role->delete($role->name);
+        session()->flash('successRole', 'Delete Roles');
     }
 
     public function updatePermission(Request $request, string $id)
     {
         // dd($request->all());
+
         $role = Role::findOrFail($id);
         if ($request->status == 'add') {
             $role->givePermissionTo($request->value);
         } else {
             $role->revokePermissionTo($request->value);
         }
-        session()->flash('successRole','Update Permissions');
+        session()->flash('successRole', 'Update Permissions');
     }
 }

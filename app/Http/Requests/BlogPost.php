@@ -23,7 +23,7 @@ class BlogPost extends FormRequest
     {
         return [
                 'addTitle' => 'required',
-                'addExcerpt' => 'required|min:10|max:255',
+                'addExcerpt' => 'required|min:10',
                 'addBody' => 'required',
                 'addStatus' => 'required|in:0,1',
                 'addCat'=>'required|numeric',

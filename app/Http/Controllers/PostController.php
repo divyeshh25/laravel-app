@@ -8,6 +8,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PostController extends Controller
 {
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('status', '=', '0')->get();
         return view('post.create', compact('categories'));
     }
 
@@ -56,7 +58,29 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        if (isset($_GET['search'])) {
+            $posts = Post::where('body', 'LIKE', '%' . $_GET['search'] . '%')
+                ->with('user', 'category')
+                ->where('status', '0')
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        } else {
+            $posts = Post::with('user', 'category')
+                ->where('status', '0')
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        }
+        $categories = Category::with('posts')
+            ->where('status', '0')
+            ->get();
+        if (count($posts) == 0) {
+            session()->flash('NoPost', 'No Post Found');
+            $posts = Post::with('user', 'category')
+                ->where('status', '0')
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        }
+        return view('index', compact('posts', 'categories'));
     }
 
     /**
@@ -65,7 +89,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         // $post = Post::findOrFail($post);
-        $categories = Category::all();
+        $categories = Category::where('status', '=', '0')->get();
         return view('post.edit', compact(['post', 'categories']));
     }
 
@@ -97,5 +121,10 @@ class PostController extends Controller
     {
         $post->delete();
         session()->flash('successPost', 'Post Delete');
+    }
+
+    public function updateStatus(Post $post)
+    {
+        $post->update(['status' => request()->status]);
     }
 }

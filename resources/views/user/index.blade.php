@@ -139,13 +139,15 @@
                     </tbody>
                 </table>
             </div>
+
+
         </div>
     </div>
 </section>
 <x-user-modal id="EditEmp" title="Edit Employee" emailId="editemail" statusName="editstatus" btnname="edit"
-    nameId="editname" errName="edit" />
+    nameId="editname" errName="edit" :roles='$roles' />
 <x-user-modal id="AddEmp" title="Add Employee" emailId="addemail" statusName="addstatus" btnname="add"
-    nameId="addname" errName="add" />
+    nameId="addname" errName="add" :roles='$roles'/>
 
 <script>
     $('#userTable').DataTable();

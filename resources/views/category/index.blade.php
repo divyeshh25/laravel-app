@@ -1,6 +1,7 @@
     <x-link class="layout-navbar-fixed layout-fixed  layout-footer-fixed"></x-link>
     <x-sidebar.sidebar />
     <x-navbar.navbar />
+    <link href="/css/activeInactive.css" rel="stylesheet">
     <link href="toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
     <script src="toastr/build/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -39,7 +40,17 @@
                                 <tr>
                                     <td>{{ $category->id }}</td>
                                     <td>{{ Str::ucfirst($category->name) }}</td>
-                                    <td>{{ $category->status == 0 ? 'Active' : 'Inactive' }}</td>
+                                    {{-- <td>{{ $category->status == 0 ? 'Active' : 'Inactive' }}</td> --}}
+                                    <td>
+                                        <p>
+                                            <input type="checkbox" id="switch-{{ $category->id }}" switch="bool"
+                                                {{ $category->status == 0 ? 'checked' : '' }}
+                                                onchange="check('switch-{{ $category->id }}')" />
+                                            <label for="switch-{{ $category->id }}" data-on-label="Active"
+                                                data-off-label="Inactive"></label>
+                                        </p>
+                                    </td>
+
                                     <td>{{ $category->user->name }}</td>
                                     <td class="flex">
                                         {{-- href="post/edit/{{$category->id}}" --}}
@@ -69,6 +80,26 @@
             "processing": true,
         });
 
+        //Status Update
+        function check(text) {
+            var id = text.split("-")[1];
+            var status = $('#' + text).is(':checked') ? '0' : '1';
+            var url = "/updateCategoryStatus/" + id;
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'status': status,
+                },
+                success: function(dataResult) {
+                    // window.location.reload();
+                },
+                error: function(dataResult) {
+                    console.log(dataResult);
+                }
+            });
+        }
         $(document).ready(function() {
 
             //Add New Category
@@ -117,13 +148,6 @@
                         // console.log(dataResult);
                         $("#EditCatModal").modal("show");
                         $("#name2").val(dataResult.name);
-                        $status = dataResult.status;
-                        if ($status == 0) {
-                            $("input[name='status2'][value='0']").prop('checked', true);
-                        } else {
-                            $("input[name='status2'][value='1']").prop('checked', true);
-
-                        }
                         $("#btnEdit").val(id);
                     },
                     error: function(dataResult) {}
@@ -197,4 +221,3 @@
             });
         });
     </script>
-

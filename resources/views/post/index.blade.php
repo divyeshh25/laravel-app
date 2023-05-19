@@ -1,6 +1,7 @@
 <x-link class="layout-navbar-fixed layout-fixed  layout-footer-fixed"></x-link>
 <x-sidebar.sidebar />
 <x-navbar.navbar />
+<link href="/css/activeInactive.css" rel="stylesheet">
 <link href="/toastr/build/toastr.min.css" rel="stylesheet" type="text/css">
 <script src="/toastr/build/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,10 +32,14 @@
                             <th>Category</th>
                             <th>Title</th>
                             {{-- <th>Excerpt</th> --}}
+                            @can('publish post')
                             <th>Status</th>
+
+                            @endcan
+
                             <th>Posted By</th>
                             <th>Image</th>
-                            @role(['admin', 'editor','writer'])
+                            @role(['admin', 'editor', 'writer'])
                                 <th>Action</th>
                             @endrole
                         </tr>
@@ -46,22 +51,33 @@
                                 <td>{{ $post->category->name }}</td>
                                 <td>{{ $post->title }}</td>
                                 {{-- <td>{{ $post->excerpt }}</td> --}}
-                                <td>{{ $post->status == 0 ? 'Active' : 'Inactive' }}</td>
+                                {{-- <td>{{ $post->status == 0 ? 'Active' : 'Inactive' }}</td> --}}
+                                @can('publish post')
+                                <td>
+                                    <p>
+                                        <input type="checkbox" id="switch-{{ $post->id }}" switch="bool"
+                                            {{ $post->status == 0 ? 'checked' : '' }}
+                                            onchange="check('switch-{{ $post->id }}')" />
+                                        <label for="switch-{{ $post->id }}" data-on-label="Active"
+                                            data-off-label="Inactive"></label>
+                                    </p>
+                                </td>
+                                @endcan
+
                                 <td>{{ $post->user->name }}</td>
                                 <td><img src="{{ asset($post->image) }}" height="50" width="50"></td>
-                                @role(['admin', 'editor','writer'])
+                                @role(['admin', 'editor', 'writer'])
                                     <td class="flex">
                                         {{-- href="post/edit/{{$category->id}}" --}}
                                         @can('edit post')
-                                        <a href="{{ route('posts.edit', $post->id) }}" data-id="{{ $post->id }}"
-                                            id="viewEdit" style="cursor:pointer;border:none"><i
-                                                class="fas fa-pencil text-primary"></i></a>
-
+                                            <a href="{{ route('posts.edit', $post->id) }}" data-id="{{ $post->id }}"
+                                                id="viewEdit" style="cursor:pointer;border:none"><i
+                                                    class="fas fa-pencil text-primary"></i></a>
                                         @endcan
                                         @can('write post')
-                                                <span class="mx-2" data-id="{{ $post->id }}" id="delete"
-                                                    style="cursor:pointer;border:none"><i
-                                                        class="fas fa-trash text-danger"></i></span>
+                                            <span class="mx-2" data-id="{{ $post->id }}" id="delete"
+                                                style="cursor:pointer;border:none"><i
+                                                    class="fas fa-trash text-danger"></i></span>
                                         @endcan
 
                                     </td>
@@ -80,6 +96,28 @@
 
 <script>
     $('#postTable').DataTable();
+
+    //status update
+    function check(text) {
+        var id = text.split("-")[1];
+        var status = $('#' + text).is(':checked') ? '0' : '1';
+        var url = "/updatePostStatus/" + id;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'status': status,
+            },
+            success: function(dataResult) {
+                // window.location.reload();
+            },
+            error: function(dataResult) {
+                console.log(dataResult);
+            }
+        });
+    }
+
     $(document).ready(function() {
         // Delete Post
         $(document).on('click', '#delete', function() {

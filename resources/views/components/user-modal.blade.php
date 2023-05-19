@@ -11,6 +11,8 @@
                 </button>
             </div>
             <form method="POST">
+
+
                 <div class="modal-body">
                     {{-- <x-form.input type="text" value="" name="cat_id" class="fas fa-pencil" /> --}}
                     <input class="form-control" type="text" name="{{ $nameId }}" placeholder="Enter Name:"
@@ -25,31 +27,13 @@
                         <p id="err1-{{ $passId }}" class="text-danger text-sm"></p>
                     @endif --}}
                     <div class="flex form-check">
-                        <input class="form-check-input" type="radio" name="{{ $statusName }}" id="status1"
-                            value='admin'>
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Admin
-                        </label>
-                        <input class="form-check-input ml-2" type="radio" name="{{ $statusName }}" id="status2"
-                            value='editor'>
-                        <label class="form-check-label ml-4" for="flexRadioDefault2">
-                            Editor
-                        </label>
-                        <input class="form-check-input ml-2" type="radio" name="{{ $statusName }}" id="status2"
-                            value='writer'>
-                        <label class="form-check-label ml-4" for="flexRadioDefault2">
-                            Writer
-                        </label>
-                        <input class="form-check-input ml-2" type="radio" name="{{ $statusName }}" id="status2"
-                            value='publisher'>
-                        <label class="form-check-label ml-4" for="flexRadioDefault2">
-                            Publisher
-                        </label>
-                        <input class="form-check-input ml-2" type="radio" name="{{ $statusName }}" id="status2"
-                            value='visitor' checked>
-                        <label class="form-check-label ml-4" for="flexRadioDefault2">
-                            Visitor
-                        </label>
+                        @foreach ($roles as $role)
+                            <input class="form-check-input " type="radio" name="{{ $statusName }}" id="status1"
+                                value='{{ $role->name }}'>
+                            <label class="form-check-label mr-4" for="flexRadioDefault1">
+                                {{ $role->name }}
+                            </label>
+                        @endforeach
                     </div>
                     <p id="{{ $errName }}-status" class="text-danger text-sm"></p>
                 </div>
