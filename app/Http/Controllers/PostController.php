@@ -126,5 +126,6 @@ class PostController extends Controller
     public function updateStatus(Post $post)
     {
         $post->update(['status' => request()->status]);
+        session()->flash('successPost', 'Status Update');
     }
 }

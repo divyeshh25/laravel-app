@@ -75,5 +75,6 @@ class CategoryController extends Controller
     public function updateStatus(Category $category)
     {
         $category->update(['status'=>request()->status]);
+        session()->flash('success', 'Status Update');
     }
 }

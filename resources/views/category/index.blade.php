@@ -93,7 +93,7 @@
                     'status': status,
                 },
                 success: function(dataResult) {
-                    // window.location.reload();
+                    window.location.reload();
                 },
                 error: function(dataResult) {
                     console.log(dataResult);
