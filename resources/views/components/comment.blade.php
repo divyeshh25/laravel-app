@@ -34,7 +34,7 @@
                         <a>{{ Str::ucfirst($comment->user->name) }}</a>
                     </span>
                     <span class="be-comment-time" style="color:#ce8460">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-clock"></i>
                         {{ $comment->created_at->diffForHumans() }}
                     </span>
 

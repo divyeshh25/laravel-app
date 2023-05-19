@@ -87,7 +87,7 @@
                             </h3>
                             <ul class="list-inline post-meta mb-2">
                                 <li class="list-inline-item"><i class="ti-user mr-2"></i><a
-                                        href="/author/{{ $category->user->id }}">{{ $category->user->name }}</a>
+                                        href="/author/{{ $post->user->id }}">{{ $post->user->name}}</a>
                                 </li>
                                 <li class="list-inline-item">Date : {{ $post->updated_at->format('F j, Y') }}</li>
                                 <li class="list-inline-item">Categories : <a href="/category/{{ $post->category->id }}"

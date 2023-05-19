@@ -59,7 +59,7 @@
 </section>
 
 {{-- //edit modal --}}
-<div class="modal fade" id="CommentEdit" tabindex="-1" role="dialog" aria-hidden="true">
+{{-- <div class="modal fade" id="CommentEdit" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -70,7 +70,6 @@
             </div>
             <form  method="POST">
                 <div class="modal-body">
-                    {{-- <x-form.input type="text" value="" name="cat_id" class="fas fa-pencil" /> --}}
                     <textarea class="form-control" name="commentText" id="commentText"></textarea>
                     <p id="ErrComment" class="text-danger text-sm"></p>
                 </div>
@@ -82,7 +81,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 
 
 <script>
