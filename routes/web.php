@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LikeController;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -41,7 +42,6 @@ Route::get('author/{user}',function(User $user){
 });
 
 Route::get('post/{post}',function(Post $post){
-
     return view('post',compact('post'));
 });
 
@@ -75,7 +75,7 @@ Route::get('recover-password',function(){
 
 
 Route::get('dashboard',function(){
-    return view('pages.dashboard');
+    return view('pages.dashboard',['posts'=> Post::count(),'comments'=>Comment::count()]);
 })->middleware('auth')
 ->name('dashboard');
 

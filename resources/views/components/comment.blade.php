@@ -17,33 +17,36 @@
             </form>
         @endauth
         @guest
-            <label style="font-size:12px">You have the right to reply or like after <a href="/login" style="font-size:16px">login</a></label>
+            <label style="font-size:12px">You have the right to reply or like after <a href="/login"
+                    style="font-size:16px">login</a></label>
         @endguest
 
         @foreach ($comments as $comment)
-            <div class="be-comment">
-                <div class="be-img-comment">
-                    <a href="blog-detail-2.html">
-                        <img src="https://i.pravatar.cc/150?u={{ $comment->user->id }}" alt=""
-                            class="be-ava-comment">
-                    </a>
-                </div>
-                <div class="be-comment-content">
+            @foreach ($comment->user as $user)
+                <div class="be-comment">
+                    <div class="be-img-comment">
+                        <a href="blog-detail-2.html">
+                            <img src="https://i.pravatar.cc/150?u={{ $user->id }}" alt=""
+                                class="be-ava-comment">
+                        </a>
+                    </div>
+                    <div class="be-comment-content">
 
-                    <span class="be-comment-name">
-                        <a>{{ Str::ucfirst($comment->user->name) }}</a>
-                    </span>
-                    <span class="be-comment-time" style="color:#ce8460">
-                        <i class="fas fa-clock"></i>
-                        {{ $comment->created_at->diffForHumans() }}
-                    </span>
+                        <span class="be-comment-name">
+                            <a>{{ Str::ucfirst($user->name) }}</a>
+                        </span>
+            @endforeach
+            <span class="be-comment-time" style="color:#ce8460">
+                <i class="fas fa-clock"></i>
+                {{ $comment->created_at->diffForHumans() }}
+            </span>
 
-                    <p class="be-comment-text">
-                        {{ $comment->body }}
-                    </p>
-                </div>
-            </div>
-        @endforeach
-
+            <p class="be-comment-text">
+                {{ $comment->body }}
+            </p>
     </div>
+</div>
+@endforeach
+
+</div>
 </div>

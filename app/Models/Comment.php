@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Comment extends Model
 {
@@ -13,8 +14,8 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
-    public function user()
+    public function user(): BelongsToMany
     {
-        return $this->belongsTo(User::class)->orderBy('created_at','desc');
+        return $this->belongsToMany(User::class,'user_comment')->orderBy('created_at','desc');
     }
 }

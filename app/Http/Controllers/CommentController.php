@@ -33,10 +33,13 @@ class CommentController extends Controller
         $request->validate([
             'comment'=> 'required'
         ]);
+        // $data['user_id'] = Auth::id();
         $data['body'] = $request->input('comment');
-        $data['user_id'] = Auth::id();
         $data['post_id'] = $request->input('post_id');
-        Comment::create($data);
+        $comment = Comment::create($data);
+        $comment->user()->attach([Auth::id()]);
+        // $comment->user_comment()->attch(Auth::id(),$comment->id);
+        // Auth::id()->
         return redirect()->back()->with('commentPost','');
     }
 
@@ -61,7 +64,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        dd($request->all());
+        // dd($request->all());
         $request->validate([
             'body'=> 'required'
         ]);

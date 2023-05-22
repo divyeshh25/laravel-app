@@ -11,15 +11,15 @@
         <div class="container-fluid">
 
 
-            <div class="row">
+            {{-- <div class="row">
                 <x-cards.sm-card bgcolor='bg-info' icon="fas fa-home" msg1='Home' msg2='10001' />
                 <x-cards.sm-card bgcolor='bg-success' icon="fas fa-envelope" msg1='Message' msg2='10001' />
-                {{-- <x-cards.sm-card/> --}}
+                <x-cards.sm-card/>
 
-            </div>
+            </div> --}}
             <div class="row">
-                <x-cards.xl-card icon='fas fa-shopping-cart' bgcolor="bg-warning" total='50' text1='hello'/>
-                <x-cards.xl-card icon='fas fa-user-plus' bgcolor="bg-danger" total='50' text1='hello'/>
+                <x-cards.xl-card icon='fas fa-podcast' bgcolor="bg-warning" total='{{ $posts }}' text1='Posts'/>
+                <x-cards.xl-card icon='fas fa-comment' bgcolor="bg-danger" total='{{ $comments }}' text1='Comments'/>
             </div>
         </div>
     </section>
