@@ -84,7 +84,6 @@
                         <p>{!! $post->body !!}</p>
                         <hr>
                         <h3 id="blockquote" style="text-align:right;">
-                            @auth
                             <span>
                                 <button class="btn btn-success" id="like">
                                     <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
@@ -95,7 +94,7 @@
                                     {{ count($post->likes->where('status', 1)) }}
                                 </button>
                             </span>
-                            @endauth
+
                         </h3>
                         <blockquote style="background-color:white">
                             <x-comment :data="$post->comments->reverse()" :postid='$post->id' />

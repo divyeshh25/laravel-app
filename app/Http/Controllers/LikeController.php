@@ -31,15 +31,20 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        $data = [
-            'post_id' => $request->id,
-            'user_id' => Auth::user()->id
-        ];
-        if (Like::where($data)->exists()) {
-            Like::where($data)->update(['status'=>(Like::where($data)->first()->status == 0 ? 1 : 0)]);
-        } else {
-            $data['status'] = $request->status;
-            Like::create($data);
+        if (Auth()->user() != null) {
+            $data = [
+                'post_id' => $request->id,
+                'user_id' => Auth::user()->id,
+            ];
+            if (Like::where($data)->exists()) {
+                Like::where($data)->delete();
+                $data['status'] = $request->status;
+                Like::create($data);
+                // Like::where($data)->update(['status'=>(Like::where($data)->first()->status == 0 ? 1 : 0)]);
+            } else {
+                $data['status'] = $request->status;
+                Like::create($data);
+            }
         }
     }
 
