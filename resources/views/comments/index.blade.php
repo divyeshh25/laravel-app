@@ -37,7 +37,12 @@
                         @foreach ($comments as $comment)
                             <tr>
                                 <td>{{ $comment->body }} </td>
-                                <td>{{ Str::ucfirst($comment->user->name) }} </td>
+                                <td>
+                                    @foreach ($comment->user as $user)
+                                        {{ Str::ucfirst($user->name) }}
+                                    @endforeach
+
+                                </td>
                                 <td>{{ $comment->post->category->name }} </td>
                                 <td>{{ $comment->post->title }}</td>
                                 <td class="flex">
