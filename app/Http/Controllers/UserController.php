@@ -33,9 +33,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // $user = User::create($request->all());
-        // dd($user);
-        // session()->flash('success', "Category Added");
+        $request->validate([
+            'name' => 'required',
+            'email' => 'email|required|unique:users,email',
+            'password' => 'required|min:8',
+            'status' => 'required'
+        ]);
+        $user = User::create($request->all());
+        $user->assignRole([$request->status]);
+        session()->flash('successUser', "User Added");
     }
 
     /**

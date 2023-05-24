@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpParser\Node\Scalar\String_;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -14,7 +16,8 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::with('permissions')->get();
-        return view('user.role.index', compact('roles'));
+        $permissions = Permission::all();
+        return view('user.role.index', compact('roles','permissions'));
     }
 
     /**
@@ -22,7 +25,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.role.create');
     }
 
     /**
@@ -46,23 +49,30 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $role)
     {
-        //
+        $rolePer = $role->getAllPermissions();
+        return view('user.role.edit',compact(['role','rolePer']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        // dd($request->all());
+        $data = $request->validate([
+            'name' => 'required'
+        ]);
+        $role->syncPermissions($request->permission);
+        $role->update($data);
+        session()->flash('successRole', 'Update Role & it\'s Permissions');
     }
 
     /**

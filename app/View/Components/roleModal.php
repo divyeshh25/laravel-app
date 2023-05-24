@@ -14,11 +14,13 @@ class roleModal extends Component
     public $title = '';
     public $nameId = '';
     public $btnName = '';
-    public function __construct($title,$nameId,$btnName)
+    public $permissions;
+    public function __construct($title,$nameId,$btnName,$permissions)
     {
         $this->title = $title;
         $this->nameId = $nameId;
         $this->btnName = $btnName;
+        $this->permissions = $permissions;
     }
 
     /**

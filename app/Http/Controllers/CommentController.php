@@ -38,8 +38,6 @@ class CommentController extends Controller
         $data['post_id'] = $request->input('post_id');
         $comment = Comment::create($data);
         $comment->user()->attach([Auth::id()]);
-        // $comment->user_comment()->attch(Auth::id(),$comment->id);
-        // Auth::id()->
         return redirect()->back()->with('commentPost','');
     }
 

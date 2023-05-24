@@ -9,22 +9,13 @@ use Illuminate\View\Component;
 class userModal extends Component
 {
     public $title ='';
-    public $nameId = '';
-    public $emailId = '';
-    public $statusName = '';
     public $btnname = '';
     public $roles;
-    // public $passId = '';
-    public function __construct($title,$nameId,$emailId,$statusName,$btnname,$roles)
+    public function __construct($title,$btnname,$roles)
     {
-        dd($title);
         $this->title = $title;
-        $this->nameId = $nameId;
-        $this->emailId= $emailId;
-        $this->statusName = $statusName;
         $this->btnname = $btnname;
         $this->roles = $roles;
-        // $this->passId = $passId;
     }
 
     /**

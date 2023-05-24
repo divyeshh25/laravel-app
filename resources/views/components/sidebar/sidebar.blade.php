@@ -51,17 +51,18 @@
                         </p>
                     </a>
                 </li>
-                @role('admin')
-                    <li class="nav-item">
-                        <a href="{{ route('categories.index') }}"
-                            class="nav-link {{ Route::is('categories.index') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                Category
-                            </p>
-                        </a>
-                    </li>
-                @endrole
+                @if(auth()->user()->hasAnyPermission(['list category', 'add category', 'edit category', 'delete category']))
+                <li class="nav-item">
+                    <a href="{{ route('categories.index') }}"
+                        class="nav-link {{ Route::is('categories.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Category
+                        </p>
+                    </a>
+                </li>
+                @endif
+                @if(auth()->user()->hasAnyPermission(['list post', 'write post', 'edit post', 'delete post']))
                 <li class="nav-item">
                     <a href="{{ route('posts.index') }}"
                         class="nav-link {{ Route::is('posts.index') ? 'active' : '' }}">
@@ -71,54 +72,38 @@
                         </p>
                     </a>
                 </li>
-                @role('admin')
-                    <li class="nav-item">
-                        <a href="{{ route('roles.index') }}"
-                            class="nav-link {{ Route::is('roles.index') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                Role & Permission
-                            </p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('users.index') }}"
-                            class="nav-link {{ Route::is('users.index') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                User
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('comments.index') }}"
-                            class="nav-link {{ Route::is('comments.index') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                Comments
-                            </p>
-                        </a>
-                    </li>
-                @endrole
-                {{-- <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li> --}}
-                {{-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Layout Options
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
-              </p>
-            </a> --}}
+                @endif
+                @if(auth()->user()->hasAnyPermission(['list user', 'add user', 'edit user', 'delete user']))
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-link {{ Route::is('users.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            User
+                        </p>
+                    </a>
+                </li>
+                @endif
+                @if(auth()->user()->hasAnyPermission(['list role', 'add role', 'edit role', 'delete role']))
+                <li class="nav-item">
+                    <a href="{{ route('roles.index') }}"
+                        class="nav-link {{ Route::is('roles.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Role & Permission
+                        </p>
+                    </a>
+                </li>
+                @endif
+                <li class="nav-item">
+                    <a href="{{ route('comments.index') }}"
+                        class="nav-link {{ Route::is('comments.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Comments
+                        </p>
+                    </a>
+                </li>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="/normal-sidebar" class="nav-link">

@@ -158,4 +158,19 @@ return [
 
         'store' => 'default',
     ],
+    // 'default_permissions' => [
+    //     'product_management' => [
+    //         'view_own_pro',
+    //         'view_pro',
+    //         'mng_own_pro',
+    //         'mng_pro',
+    //         'force_delete_pro',
+    //         'restore_pro',
+    //     ],
+    //     'role_management' => [],
+    //     'category_management' => [],
+    //     'order_management'=> [],
+    //     'user_management'=> [],
+    //   ],
+
 ];

@@ -1,3 +1,5 @@
+{{-- <script src="/plugins/jquery/jquery.min.js"></script> --}}
+
 <x-link class="layout-navbar-fixed layout-fixed  layout-footer-fixed"></x-link>
 <x-sidebar.sidebar />
 <x-navbar.navbar />
@@ -56,7 +58,11 @@
         box-shadow: -3px -3px 3px rgba(255, 255, 255, .5),
             3px 3px 5px rgba(0, 0, 0, .25);
     }
-</style>
+
+    .grid-list {
+        list-style-type: none;
+        column-count: 4;
+    }
 </style>
 @if (session()->has('successRole'))
     <script>
@@ -65,16 +71,17 @@
 @endif
 <section class="content-wrapper">
     <div class="container-fluid">
-
         <div class="card bg-light mt-4 h-auto">
             <div class="card-body">
                 {{-- {{ dd($users)}} --}}
                 <div class="flex">
                     <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Users</span>
+                    @can('add role')
                     <span class="mailbox-attachment-close">
-                        <a class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#AddRole">
+                        <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary mb-3" >
                             Add <i class="fas fa-plus"></i></a>
                     </span>
+                    @endcan
                 </div>
                 <table id="userTable" class="display">
                     <thead>
@@ -82,10 +89,12 @@
                             <th>Name</th>
                             <th>Created At</th>
                             {{-- <th>Role</th> --}}
-                            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permission <br> Write &nbsp; Edit
+                            {{-- <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permission <br> Write &nbsp; Edit
                                 &nbsp;
-                                Publish</th>
-                            <th>Action</th>
+                                Publish</th> --}}
+                            @canany(['edit role', 'delete role'])
+                                <th>Action</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -97,7 +106,7 @@
                                 <td>{{ Str::ucfirst($role->name) }}</td>
                                 <td>{{ $role->updated_at->format('F j, Y, g:i a') }}</td>
 
-                                <td>
+                                {{-- <td>
                                     <div class="form-group clearfix row">
                                         &nbsp;
                                         <div class="icheck-primary d-inline cols">
@@ -128,16 +137,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                                <td class="flex">
-                                    {{-- href="post/edit/{{$category->id}}" --}}
-                                    {{-- <span data-id="{{ $role->id }}" id="viewEdit"
-                                        style="cursor:pointer;border:none"><i
-                                            class="fas fa-pencil text-primary"></i></span> --}}
-                                    <span class="mx-2" data-id="{{ $role->id }}" id="delete"
-                                        style="cursor:pointer;border:none"><i
-                                            class="fas fa-trash text-danger"></i></span>
-                                </td>
+                                </td> --}}
+                                @canany(['edit role', 'delete role'])
+                                    <td class="flex">
+                                        @can('edit role')
+                                            <a href="{{ route('roles.edit', $role->id) }}" data-id="{{ $role->id }}"
+                                                id="viewEdit" style="cursor:pointer;border:none"><i
+                                                    class="fas fa-pencil text-primary"></i></a>
+                                        @endcan
+                                        @can('delete role')
+                                            <span class="mx-2" data-id="{{ $role->id }}" id="delete"
+                                                style="cursor:pointer;border:none"><i
+                                                    class="fas fa-trash text-danger"></i></span>
+                                        @endcan
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>
@@ -146,69 +160,15 @@
         </div>
     </div>
 </section>
-<x-role-modal id="EditRole" title="Edit Role" btnName="edit" nameId="editname" errName="edit" />
-<x-role-modal id="AddRole" title="Add Role" btnName="add" nameId="addname" errName="add" />
+{{-- <x-role-modal id="EditRole" title="Edit Role" btnName="edit" nameId="editname" errName="edit" :permissions="$permissions" /> --}}
+<x-role-modal id="AddRole" title="Add Role" btnName="add" nameId="addname" errName="add" :permissions="$permissions" />
 
 <script>
     $('#userTable').DataTable();
 
-    function check(text) {
-        var value = text.split("-")[0] + " post";
-        var id = text.split("-")[1];
-        var status = $('#' + text).is(':checked') ? 'add' : 'remove';
-        var url = "/updatePermission/" + id;
-        // url = url.replace('/id', id);
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                '_token': '{{ csrf_token() }}',
-                'value': value,
-                'status': status,
-            },
-            success: function(dataResult) {
-                window.location.reload();
-            },
-            error: function(dataResult) {
-                console.log(dataResult);
-            }
-        });
-    }
-
     $(document).ready(function() {
-        // Add user modal
-        $('#add').on('click', function() {
-            var name = $('#addname').val();
-            const permission = [];
-            $('#write-add').is(":checked") ? permission.push($('#write-add').val()) : '';
-            $('#edit-add').is(":checked") ? permission.push($('#edit-add').val()) : '';
-            $('#publish-add').is(":checked") ? permission.push($('#publish-add').val()) : '';
-            // alert(permission);
-            $.ajax({
-                url: '{{ route('roles.store') }}',
-                type: "POST",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    type: 1,
-                    name: name,
-                    permission: permission,
-                },
-                cache: false,
 
-                success: function(dataResult) {
-                    window.location.reload();
-                },
-                error: function(dataResult) {
-                    console.log(dataResult);
-                    $error = dataResult.responseJSON.errors;
-                    if (dataResult.status == 422) {
-                        $.each($error, function(key, value) {
-                            $('#err1-add' + key).html(value);
-                        });
-                    }
-                }
-            });
-        });
+
 
 
         // delete roles

@@ -41,7 +41,7 @@ if (! function_exists('abort')) {
         } elseif ($code instanceof Responsable) {
             throw new HttpResponseException($code->toResponse(request()));
         }
-
+        $message = 'Return To Dashboard';
         app()->abort($code, $message, $headers);
     }
 }

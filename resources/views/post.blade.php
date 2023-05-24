@@ -140,7 +140,6 @@
 <script src="https://use.fontawesome.com/fe459689b4.js"></script>
 
 <script>
-
     $(document).ready(function() {
         $('#like').click(function() {
             var id = {{ $post->id }}
@@ -157,12 +156,8 @@
                     window.location.reload();
                 },
                 error: function(dataResult) {
-                    console.log(dataResult);
-                    $error = dataResult.responseJSON.errors;
-                    if (dataResult.status == 422) {
-                        $.each($error, function(key, value) {
-                            $('#err1-add' + key).html(value);
-                        });
+                    if (dataResult.status == 401) {
+                        window.location.href = "/login";
                     }
                 }
             });
@@ -182,13 +177,10 @@
                     window.location.reload();
                 },
                 error: function(dataResult) {
-                    console.log(dataResult);
-                    $error = dataResult.responseJSON.errors;
-                    if (dataResult.status == 422) {
-                        $.each($error, function(key, value) {
-                            $('#err1-add' + key).html(value);
-                        });
+                    if (dataResult.status == 401) {
+                        window.location.href = "/login";
                     }
+
                 }
             });
         });

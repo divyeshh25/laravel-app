@@ -1,3 +1,4 @@
+@can('edit post')
 <x-link class="layout-navbar-fixed layout-fixed  layout-footer-fixed" />
 <x-sidebar.sidebar />
 <x-navbar.navbar />
@@ -6,7 +7,7 @@
     <div class="container-fluid">
         {{-- {{ dd($categories) }} --}}
         <div class="card bg-light mt-4 h-auto">
-            <h1 class="rounded text-center mb-2 text-bold text-lg-center text-xl">Add Post</h1>
+            <h1 class="rounded text-center mb-2 text-bold text-lg-center text-xl">Edit Post</h1>
             <div class="card-body m-2 shadow-lg">
                 <x-post-form btnType='submit' iDName='edit' action="{{ route('posts.update',$post->id) }}" method="POST"
                     otherMethod='PATCH' :data="$categories" />
@@ -31,3 +32,6 @@
 
     });
 </script>
+@else
+    <script>window.location = "/error";</script>
+@endcan

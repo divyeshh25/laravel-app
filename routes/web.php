@@ -81,24 +81,22 @@ Route::get('dashboard',function(){
 
 //Users , Category , roles Routes
 
-Route::group([
-    'middleware' => ['auth','admin'],
-], function () {
-    Route::resources([
-        'categories' => CategoryController::class,
-        'users' => UserController::class,
-        'roles' => RoleController::class
-    ]);
-});
-Route::resource('posts',PostController::class);
-Route::resource('comments',CommentController::class);
-Route::resource('likes',LikeController::class);
+Route::resource('categories',CategoryController::class)->middleware(['auth','category']);
+Route::resource('posts',PostController::class)->middleware(['auth','post']);
+Route::resource('users',UserController::class)->middleware(['auth','user']);
+Route::resource('roles',RoleController::class)->middleware(['auth','role']);
 
+Route::resource('comments',CommentController::class);
+Route::resource('likes',LikeController::class)->middleware('auth');
 //update catregory status
-Route::post('/updateCategoryStatus/{category}',[CategoryController::class,'updateStatus']);
+Route::post('/updateCategoryStatus/{category}',[CategoryController::class,'updateStatus'])->middleware(['auth','category']);
 //update post status
-Route::post('/updatePostStatus/{post}',[PostController::class,'updateStatus']);
+Route::post('/updatePostStatus/{post}',[PostController::class,'updateStatus'])->middleware(['auth','post']);;
 //update status of roles
-Route::post('/updateStatus/{id}',[UserController::class,'updateStatus']);
+Route::post('/updateStatus/{id}',[UserController::class,'updateStatus'])->middleware(['auth','user']);
 //update status of permission
-Route::post('/updatePermission/{id}',[RoleController::class,'updatePermission']);
+Route::post('/updatePermission/{id}',[RoleController::class,'updatePermission'])->middleware(['auth','role']);
+
+Route::get('error',function(){
+return view('errors.403');
+});

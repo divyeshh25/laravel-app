@@ -66,10 +66,12 @@
                 {{-- {{ dd($users)}} --}}
                 <div class="flex">
                     <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Users</span>
-                    {{-- <span class="mailbox-attachment-close">
-                        <a class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#AddEmp">
-                            Add <i class="fas fa-plus"></i></a>
-                    </span> --}}
+                    @can('add user')
+                        <span class="mailbox-attachment-close">
+                            <a class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#AddEmp">
+                                Add <i class="fas fa-plus"></i></a>
+                        </span>
+                    @endcan
                 </div>
                 <table id="userTable" class="display">
                     <thead>
@@ -77,10 +79,13 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permission <br> Write &nbsp; Edit
+                            {{-- <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permission <br> Write &nbsp; Edit
                                 &nbsp;
-                                Publish</th>
-                            <th>Action</th>
+                                Publish</th> --}}
+                            @canany(['edit user', 'delete user'])
+                                <th>Action</th>
+                            @endcanany
+
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +98,7 @@
                                         {{ Str::ucfirst($roleName) }}
                                     @endforeach
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <div class="form-group clearfix row">
                                         &nbsp;
                                         <div class="icheck-primary d-inline cols">
@@ -124,16 +129,22 @@
                                             </div>
                                         </div>
                                     </div>
-                                </td>
-                                <td class="flex">
-                                    {{-- href="post/edit/{{$category->id}}" --}}
-                                    <span data-id="{{ $user->id }}" id="viewEdit"
-                                        style="cursor:pointer;border:none"><i
-                                            class="fas fa-pencil text-primary"></i></span>
-                                    <span class="mx-2" data-id="{{ $user->id }}" id="delete"
-                                        style="cursor:pointer;border:none"><i
-                                            class="fas fa-trash text-danger"></i></span>
-                                </td>
+                                </td> --}}
+                                @canany(['edit user', 'delete user'])
+                                    <td class="flex">
+                                        @can('edit user')
+                                            <span data-id="{{ $user->id }}" id="viewEdit"
+                                                style="cursor:pointer;border:none"><i
+                                                    class="fas fa-pencil text-primary"></i></span>
+                                        @endcan
+                                        @can('delete user')
+                                            <span class="mx-2" data-id="{{ $user->id }}" id="delete"
+                                                style="cursor:pointer;border:none"><i
+                                                    class="fas fa-trash text-danger"></i></span>
+                                        @endcan
+
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>
@@ -144,47 +155,48 @@
         </div>
     </div>
 </section>
-<x-user-modal id="EditEmp" title="Edit Employee" emailId="editemail" statusName="editstatus" btnname="edit"
-    nameId="editname" errName="edit" :roles='$roles' />
+<x-user-modal id="EditEmp" title="Edit Employee" btnname="edit" :roles='$roles' />
 <x-user-modal id="AddEmp" title="Add Employee" emailId="addemail" statusName="addstatus" btnname="add"
-    nameId="addname" errName="add" :roles='$roles'/>
+    nameId="addname" errName="add" :roles='$roles' />
 
 <script>
     $('#userTable').DataTable();
     $(document).ready(function() {
 
         //Add user modal
-        // $('#add').on('click', function() {
-        //     var name = $('#addname').val();
-        //     var email = $('#addemail').val();
-        //     var status = $("input[name='addstatus']:checked").val();
-        //     /*  $("#butsave").attr("disabled", "disabled"); */
-        //     $.ajax({
-        //         url: '{{ route('users.store') }}',
-        //         type: "POST",
-        //         data: {
-        //             _token: '{{ csrf_token() }}',
-        //             type: 1,
-        //             name: name,
-        //             status: status,
-        //             email : email,
-        //         },
-        //         cache: false,
+        $('#add').on('click', function() {
+            var name = $('#addname').val();
+            var email = $('#addemail').val();
+            var pass = $('#addpassword').val();
+            var status = $("input[name='addstatus']:checked").val();
+            console.log(name, email, status);
+            $.ajax({
+                url: '{{ route('users.store') }}',
+                type: "POST",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    type: 1,
+                    name: name,
+                    status: status,
+                    email: email,
+                    password: pass,
+                },
+                cache: false,
 
-        //         success: function(dataResult) {
-        //             window.location.reload();
-        //         },
-        //         error: function(dataResult) {
-        //             console.log(dataResult);
-        //             $error = dataResult.responseJSON.errors;
-        //             if (dataResult.status == 422) {
-        //                 $.each($error, function(key, value) {
-        //                     $('#err-add' + key).html(value);
-        //                 });
-        //             }
-        //         }
-        //     });
-        // });
+                success: function(dataResult) {
+                    window.location.reload();
+                },
+                error: function(dataResult) {
+                    console.log(dataResult);
+                    $error = dataResult.responseJSON.errors;
+                    if (dataResult.status == 422) {
+                        $.each($error, function(key, value) {
+                            $('#add-' + key).html(value);
+                        });
+                    }
+                }
+            });
+        });
 
         //view edit modal
         $(document).on('click', '#viewEdit', function() {
@@ -249,8 +261,8 @@
             });
         });
 
-         // Delete Post
-         $(document).on('click', '#delete', function() {
+        // Delete Post
+        $(document).on('click', '#delete', function() {
             var id = $(this).attr("data-id");
             console.log(id);
             var url = "{{ route('users.destroy', '/id') }}";
@@ -285,26 +297,26 @@
 
     });
 
-    function check(text) {
-        var value = text.split("-")[0] + " post";
-        var id = text.split("-")[1];
-        var status = $('#' + text).is(':checked') ? 'add' : 'remove';
-        var url = "/updateStatus/" + id;
-        // url = url.replace('/id', id);
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                '_token': '{{ csrf_token() }}',
-                'value': value,
-                'status': status,
-            },
-            success: function(dataResult) {
-                window.location.reload();
-            },
-            error: function(dataResult) {
-                console.log(dataResult);
-            }
-        });
-    }
+    // function check(text) {
+    //     var value = text.split("-")[0] + " post";
+    //     var id = text.split("-")[1];
+    //     var status = $('#' + text).is(':checked') ? 'add' : 'remove';
+    //     var url = "/updateStatus/" + id;
+    //     // url = url.replace('/id', id);
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         data: {
+    //             '_token': '{{ csrf_token() }}',
+    //             'value': value,
+    //             'status': status,
+    //         },
+    //         success: function(dataResult) {
+    //             window.location.reload();
+    //         },
+    //         error: function(dataResult) {
+    //             console.log(dataResult);
+    //         }
+    //     });
+    // }
 </script>

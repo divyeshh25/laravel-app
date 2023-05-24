@@ -15,27 +15,27 @@
 
                 <div class="modal-body">
                     {{-- <x-form.input type="text" value="" name="cat_id" class="fas fa-pencil" /> --}}
-                    <input class="form-control" type="text" name="{{ $nameId }}" placeholder="Enter Name:"
-                        id="{{ $nameId }}" />
-                    <p id="err1-{{ $nameId }}" class="text-danger text-sm"></p>
-                    <input class="form-control" type="text" name="{{ $emailId }}" placeholder="Enter Email:"
-                        id="{{ $emailId }}" />
-                    <p id="err1-{{ $emailId }}" class="text-danger text-sm"></p>
-                    {{-- @if ($btnname == 'add')
-                        <input class="form-control" type="text" name="{{ $passId }}" placeholder="Enter Password:"
-                            id="{{ $passId }}" />
-                        <p id="err1-{{ $passId }}" class="text-danger text-sm"></p>
-                    @endif --}}
+                    <input class="form-control" type="text" name="{{$btnname}}name" placeholder="Enter Name:"
+                        id="{{$btnname}}name" />
+                    <p id="{{$btnname}}-name" class="text-danger text-sm"></p>
+                    <input class="form-control" type="text" name="{{$btnname}}email" placeholder="Enter Email:"
+                        id="{{$btnname}}email" />
+                    <p id="{{$btnname}}-email" class="text-danger text-sm"></p>
+                    @if ($btnname == 'add')
+                        <input class="form-control" type="text" name="{{$btnname}}pass" placeholder="Enter Password:"
+                            id="{{$btnname}}password" />
+                        <p id="{{$btnname}}-password" class="text-danger text-sm"></p>
+                    @endif
                     <div class="flex form-check">
                         @foreach ($roles as $role)
-                            <input class="form-check-input " type="radio" name="{{ $statusName }}" id="status1"
+                            <input class="form-check-input " type="radio" name="{{$btnname}}status" id="status1"
                                 value='{{ $role->name }}'>
                             <label class="form-check-label mr-4" for="flexRadioDefault1">
                                 {{ $role->name }}
                             </label>
                         @endforeach
                     </div>
-                    <p id="{{ $errName }}-status" class="text-danger text-sm"></p>
+                    <p id="{{$btnname}}-status" class="text-danger text-sm"></p>
                 </div>
 
                 <div class="modal-footer">

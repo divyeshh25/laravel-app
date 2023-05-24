@@ -31,17 +31,15 @@
                             <th>Id</th>
                             <th>Category</th>
                             <th>Title</th>
-                            {{-- <th>Excerpt</th> --}}
-                            @can('publish post')
-                            <th>Status</th>
-
-                            @endcan
-
                             <th>Posted By</th>
+                            {{-- <th>Excerpt</th> --}}
+                            @canany(['write post','edit post'])
+                                <th>Status</th>
+                            @endcanany
                             <th>Image</th>
-                            @role(['admin', 'editor', 'writer'])
+                            @canany(['delete post','edit post'])
                                 <th>Action</th>
-                            @endrole
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -50,23 +48,22 @@
                                 <td>{{ $post->id }}</td>
                                 <td>{{ $post->category->name }}</td>
                                 <td>{{ $post->title }}</td>
+                                <td>{{ $post->user->name }}</td>
                                 {{-- <td>{{ $post->excerpt }}</td> --}}
                                 {{-- <td>{{ $post->status == 0 ? 'Active' : 'Inactive' }}</td> --}}
-                                @can('publish post')
-                                <td>
-                                    <p>
-                                        <input type="checkbox" id="switch-{{ $post->id }}" switch="bool"
-                                            {{ $post->status == 0 ? 'checked' : '' }}
-                                            onchange="check('switch-{{ $post->id }}')" />
-                                        <label for="switch-{{ $post->id }}" data-on-label="Active"
-                                            data-off-label="Inactive"></label>
-                                    </p>
-                                </td>
-                                @endcan
-
-                                <td>{{ $post->user->name }}</td>
+                                @canany(['write post','edit post'])
+                                    <td>
+                                        <p>
+                                            <input type="checkbox" id="switch-{{ $post->id }}" switch="bool"
+                                                {{ $post->status == 0 ? 'checked' : '' }}
+                                                onchange="check('switch-{{ $post->id }}')" />
+                                            <label for="switch-{{ $post->id }}" data-on-label="Active"
+                                                data-off-label="Inactive"></label>
+                                        </p>
+                                    </td>
+                                @endcanany
                                 <td><img src="{{ asset($post->image) }}" height="50" width="50"></td>
-                                @role(['admin', 'editor', 'writer'])
+                                @canany(['delete post','edit post'])
                                     <td class="flex">
                                         {{-- href="post/edit/{{$category->id}}" --}}
                                         @can('edit post')
@@ -74,14 +71,14 @@
                                                 id="viewEdit" style="cursor:pointer;border:none"><i
                                                     class="fas fa-pencil text-primary"></i></a>
                                         @endcan
-                                        @can('write post')
+                                        @can('delete post')
                                             <span class="mx-2" data-id="{{ $post->id }}" id="delete"
                                                 style="cursor:pointer;border:none"><i
                                                     class="fas fa-trash text-danger"></i></span>
                                         @endcan
 
                                     </td>
-                                @endrole
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

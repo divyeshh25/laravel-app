@@ -1,8 +1,8 @@
 <!-- Button trigger modal -->
 <x-link />
 <!-- Modal -->
-<div class="modal fade" id="{{ $id }}" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" data-refresh="true" id="{{ $id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{ $title }}</h5>
@@ -16,46 +16,52 @@
                     <input class="form-control" type="text" name="{{ $nameId }}" placeholder="Enter Name:"
                         id="{{ $nameId }}" />
                     <p id="err1-{{ $nameId }}" class="text-danger text-sm"></p>
+                    <div>
+                        <span class="float-left"><b>Permisssion:</b></span>
+                        <span class="float-right">
+                            <input class="form-check-input" id="checkAll" type="checkbox" value=""
+                                onchange="pushToArray('checkAll')"
+                                >
+                            <label class="form-check-label text-dark text-capitalize"
+                                for="checkAll">
+                                Check All
+                            </label>
+                        </span>
+                    </div>
+                    <br>
                     <div class="form-group clearfix">
-                        &nbsp;
-                        <table>
-                            <tr>
+
+
+                        {{-- <tr>
                                 <td class="permission">Write</td>
                                 <td class="permission">Edit</td>
                                 <td class="permission">Publish</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="icheck-primary d-inline cols">
-                                        <div class="switch-toggle">
-                                            <input type="checkbox" id="write-{{ $btnName }}" value="write post">
-                                            <label for="write-{{ $btnName }}"></label>
-                                        </div>
+                            </tr> --}}
+                        <ul class="grid-list">
+                            @foreach ($permissions as $permission)
+                                <li class="nav-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input permission"
+                                            id="{{ str_replace(' ', '-', $permission->name) }}" type="checkbox"
+                                            value="{{ $permission->name }}"
+                                            onchange="pushToArray('{{ str_replace(' ', '-', $permission->name) }}')"
+                                            name="permission">
+                                        <label class="form-check-label text-dark text-capitalize"
+                                            for="write-{{ $btnName }}">
+                                            {{ $permission->name }}
+                                        </label>
                                     </div>
-                                </td>
-                                <td>
-                                    <div class="icheck-primary d-inline cols">
-                                        <div class="switch-toggle">
-                                            <input type="checkbox" id="edit-{{ $btnName }}" value="edit post">
-                                            <label for="edit-{{ $btnName }}"></label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="icheck-primary d-inline cols">
-                                        <div class="switch-toggle">
-                                            <input type="checkbox" id="publish-{{ $btnName }}" value="publish post">
-                                            <label for="publish-{{ $btnName }}"></label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                                </li>
+                            @endforeach
+
+
+                        </ul>
+
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-refresh="">Close</button>
                     <button type="button" id="{{ $btnName }}"
                         class="btn btn-primary">{{ $btnName == 'edit' ? 'Save changes' : 'Add' }}</button>
                 </div>

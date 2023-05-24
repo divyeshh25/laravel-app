@@ -1,3 +1,4 @@
+@can('write post')
 <x-link class="layout-navbar-fixed layout-fixed  layout-footer-fixed"/>
 <x-sidebar.sidebar />
 <x-navbar.navbar />
@@ -22,3 +23,6 @@ $(document).ready(function() {
 });
 $('#addImg').dropify()
 </script>
+@else
+    <script>window.location = "/error";</script>
+@endcan
