@@ -4,6 +4,9 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class Authenticate extends Middleware
 {
@@ -12,7 +15,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        if (Str::contains($request->url(), 'edit')) {
+            session()->put('url', $request->url());
+        }
+        return $request->expectsJson() ? null : redirect('/login');
     }
-
 }

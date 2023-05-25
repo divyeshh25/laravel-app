@@ -77,10 +77,10 @@
                 <div class="flex">
                     <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Users</span>
                     @can('add role')
-                    <span class="mailbox-attachment-close">
-                        <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary mb-3" >
-                            Add <i class="fas fa-plus"></i></a>
-                    </span>
+                        <span class="mailbox-attachment-close">
+                            <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary mb-3">
+                                Add <i class="fas fa-plus"></i></a>
+                        </span>
                     @endcan
                 </div>
                 <table id="userTable" class="display">
@@ -92,6 +92,7 @@
                             {{-- <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permission <br> Write &nbsp; Edit
                                 &nbsp;
                                 Publish</th> --}}
+                            {{-- <th>Permissions</th> --}}
                             @canany(['edit role', 'delete role'])
                                 <th>Action</th>
                             @endcanany
@@ -105,7 +106,12 @@
                             <tr>
                                 <td>{{ Str::ucfirst($role->name) }}</td>
                                 <td>{{ $role->updated_at->format('F j, Y, g:i a') }}</td>
-
+                                {{-- <td class="flex-column">
+                                    @foreach ($role->permissions()->get() as $permission)
+                                        <p style="width: max-content;" class="text-sm text-blue bg-blue rounded-pill pl-1 pr-1">
+                                            {{ $permission->name }}</p>
+                                    @endforeach
+                                </td> --}}
                                 {{-- <td>
                                     <div class="form-group clearfix row">
                                         &nbsp;

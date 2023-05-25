@@ -1,4 +1,5 @@
 <x-form.login-layout>
+
     @extends('components.form.form', ['action' => '/login', 'method' => 'POST'])
 
     @section('form-data')

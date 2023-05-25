@@ -48,7 +48,7 @@
                 <label for="exampleInputEmail1">Status</label>
                 <br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="0" checked>
+                    <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="0">
                     <label class="form-check-label" for="">Active</label>
                 </div>
                 <div class="form-check form-check-inline">

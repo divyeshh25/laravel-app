@@ -52,9 +52,11 @@ class PostController extends Controller
         }else{
             $data['status'] = $request->addStatus;
         }
-        Post::create($data);
+        $post = Post::create($data);
         session()->flash('successPost', 'Post Added');
         $posts = Post::with('category', 'user')->get();
+        app('App\Http\Controllers\PostMailController')
+        ->index($request->addTitle,Auth::user()->email,'posts/'.$post->id.'/edit');
         return view('post.index', compact('posts'));
     }
 

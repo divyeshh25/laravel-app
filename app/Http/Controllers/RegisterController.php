@@ -16,9 +16,6 @@ class RegisterController extends Controller
             'password'=>'required|min:8|max:24|same:retype',
         ]);
         $save = User::create($data);
-        $save->assignRole('visitor');
-
-        // dd($data);
         if($save){
             return redirect("/login")->with('successLogin','');
         }
