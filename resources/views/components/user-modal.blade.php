@@ -22,7 +22,7 @@
                         id="{{$btnname}}email" />
                     <p id="{{$btnname}}-email" class="text-danger text-sm"></p>
                     @if ($btnname == 'add')
-                        <input class="form-control" type="text" name="{{$btnname}}pass" placeholder="Enter Password:"
+                        <input class="form-control" type="password" name="{{$btnname}}pass" placeholder="Enter Password:"
                             id="{{$btnname}}password" />
                         <p id="{{$btnname}}-password" class="text-danger text-sm"></p>
                     @endif

@@ -25,7 +25,6 @@ class BlogPost extends FormRequest
                 'addTitle' => 'required',
                 'addExcerpt' => 'required|min:10',
                 'addBody' => 'required',
-                'addStatus' => 'required|in:0,1',
                 'addCat'=>'required|numeric',
                 'addImg' => 'required|image|mimes:png,jpg,jpeg'
         ];

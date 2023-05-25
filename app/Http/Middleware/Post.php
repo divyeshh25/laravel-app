@@ -15,7 +15,7 @@ class Post
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!auth()->user()->hasAnyPermission(['list post', 'write post', 'edit post', 'delete post']))
+        if(!auth()->user()->hasAnyPermission(['list post', 'write post', 'edit post', 'delete post','publish post']))
         {
             abort(Response::HTTP_FORBIDDEN);
         }

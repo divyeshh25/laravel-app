@@ -38,16 +38,21 @@ class PostController extends Controller
         $request->all();
         $imgName = $request->file('addImg')->getClientOriginalName();
         $request->file('addImg')->move(public_path('BlogImage'), $imgName);
-        Post::create([
+        $data = [
             'title' => $request->addTitle,
             'excerpt' => $request->addExcerpt,
             'body' => $request->addBody,
-            'status' => $request->addStatus,
             'title' => $request->addTitle,
             'category_id' => $request->addCat,
             'user_id' => Auth::user()->id,
             'image' => 'BlogImage/' . $imgName,
-        ]);
+        ];
+        if (!isset($request->addStatus)) {
+            $data['status'] = 1;
+        }else{
+            $data['status'] = $request->addStatus;
+        }
+        Post::create($data);
         session()->flash('successPost', 'Post Added');
         $posts = Post::with('category', 'user')->get();
         return view('post.index', compact('posts'));

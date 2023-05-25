@@ -33,11 +33,11 @@
                             <th>Title</th>
                             <th>Posted By</th>
                             {{-- <th>Excerpt</th> --}}
-                            @canany(['write post','edit post'])
+                            @can('publish post')
                                 <th>Status</th>
-                            @endcanany
+                            @endcan
                             <th>Image</th>
-                            @canany(['delete post','edit post'])
+                            @canany(['delete post', 'edit post'])
                                 <th>Action</th>
                             @endcanany
                         </tr>
@@ -51,7 +51,7 @@
                                 <td>{{ $post->user->name }}</td>
                                 {{-- <td>{{ $post->excerpt }}</td> --}}
                                 {{-- <td>{{ $post->status == 0 ? 'Active' : 'Inactive' }}</td> --}}
-                                @canany(['write post','edit post'])
+                                @can('publish post')
                                     <td>
                                         <p>
                                             <input type="checkbox" id="switch-{{ $post->id }}" switch="bool"
@@ -61,9 +61,9 @@
                                                 data-off-label="Inactive"></label>
                                         </p>
                                     </td>
-                                @endcanany
+                                @endcan
                                 <td><img src="{{ asset($post->image) }}" height="50" width="50"></td>
-                                @canany(['delete post','edit post'])
+                                @canany(['delete post', 'edit post'])
                                     <td class="flex">
                                         {{-- href="post/edit/{{$category->id}}" --}}
                                         @can('edit post')

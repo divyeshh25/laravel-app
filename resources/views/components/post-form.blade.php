@@ -43,18 +43,20 @@
                 <p class="text-sm text-danger ">{{ $message }}</p>
             @enderror
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Status</label>
-            <br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="0" checked>
-                <label class="form-check-label" for="">Active</label>
+        @can('publish post')
+            <div class="form-group">
+                <label for="exampleInputEmail1">Status</label>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="0" checked>
+                    <label class="form-check-label" for="">Active</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="1">
+                    <label class="form-check-label" for="">Inactive</label>
+                </div>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="1">
-                <label class="form-check-label" for="">Inactive</label>
-            </div>
-        </div>
+        @endcan
         <div class="form-group">
             <label for="">Related Image</label>
             <input type="file" class="form-control" name="{{ $iDName }}Img" id="{{ $iDName }}Img"

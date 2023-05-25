@@ -62,7 +62,7 @@
                     </a>
                 </li>
                 @endif
-                @if(auth()->user()->hasAnyPermission(['list post', 'write post', 'edit post', 'delete post']))
+                @if(auth()->user()->hasAnyPermission(['list post', 'write post', 'edit post', 'delete post','publish post']))
                 <li class="nav-item">
                     <a href="{{ route('posts.index') }}"
                         class="nav-link {{ Route::is('posts.index') ? 'active' : '' }}">

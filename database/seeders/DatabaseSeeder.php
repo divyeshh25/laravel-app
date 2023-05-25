@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'write post']);
         Permission::create(['name' => 'edit post']);
         Permission::create(['name' => 'delete post']);
+        Permission::create(['name' => 'publish post']);
         Permission::create(['name' => 'list category']);
         Permission::create(['name' => 'add category']);
         Permission::create(['name' => 'edit category']);
@@ -38,22 +39,7 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'edit role']);
         Permission::create(['name' => 'delete role']);
         $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo('list post');
-        $role->givePermissionTo('write post');
-        $role->givePermissionTo('edit post');
-        $role->givePermissionTo('publish post');
-        $role->givePermissionTo('list category');
-        $role->givePermissionTo('add category');
-        $role->givePermissionTo('edit category');
-        $role->givePermissionTo('delete category');
-        $role->givePermissionTo('list user');
-        $role->givePermissionTo('add user');
-        $role->givePermissionTo('edit user');
-        $role->givePermissionTo('delete user');
-        $role->givePermissionTo('list role');
-        $role->givePermissionTo('add role');
-        $role->givePermissionTo('edit role');
-        $role->givePermissionTo('delete role');
+        $role->syncPermissions(Permission::all());
 
         // Craete User With Role
         $user = \App\Models\User::factory()->create([
