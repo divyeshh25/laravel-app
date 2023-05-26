@@ -75,7 +75,7 @@
             <div class="card-body">
                 {{-- {{ dd($users)}} --}}
                 <div class="flex">
-                    <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Users</span>
+                    <span class="text-blue text-bold text-lg" style="font-size:32px">Manage Roles</span>
                     @can('add role')
                         <span class="mailbox-attachment-close">
                             <a href="{{ route('roles.create') }}" class="btn btn-sm btn-primary mb-3">

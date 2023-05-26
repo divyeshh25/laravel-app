@@ -21,7 +21,7 @@
         <div class="form-group">
             <label for="">Title</label>
             <input type="text" class="form-control" name="{{ $iDName }}Title" id="{{ $iDName }}Title"
-                placeholder="Enter Title">
+                placeholder="Enter Title" value="{{ old($iDName.'Title') }}">
             @error($iDName . 'Title')
                 <p class="text-sm text-danger ">{{ $message }}</p>
             @enderror
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label for="">Excerpt</label>
             <textarea class="form-control" name="{{ $iDName }}Excerpt" id="{{ $iDName }}Excerpt"
-                placeholder="Enter Short Description Here"></textarea>
+                placeholder="Enter Short Description Here">{{ old($iDName.'Excerpt') }}</textarea>
             @error($iDName . 'Excerpt')
                 <p class="text-sm text-danger ">{{ $message }}</p>
             @enderror
@@ -38,7 +38,7 @@
         <div class="form-group">
             <label for="">Body</label>
             <textarea class="form-control" name="{{ $iDName }}Body" placeholder="Enter Body Here"
-                id="{{ $iDName }}Body"></textarea>
+                id="{{ $iDName }}Body">{{ old($iDName.'Body') }}</textarea>
             @error($iDName . 'Body')
                 <p class="text-sm text-danger ">{{ $message }}</p>
             @enderror
@@ -48,7 +48,7 @@
                 <label for="exampleInputEmail1">Status</label>
                 <br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="0">
+                    <input class="form-check-input" type="radio" name="{{ $iDName }}Status" value="0" checked>
                     <label class="form-check-label" for="">Active</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -60,7 +60,7 @@
         <div class="form-group">
             <label for="">Related Image</label>
             <input type="file" class="form-control" name="{{ $iDName }}Img" id="{{ $iDName }}Img"
-                placeholder="Enter Title">
+                placeholder="Enter Title" >
             @error($iDName . 'Img')
                 <p class="text-sm text-danger ">{{ $message }}</p>
             @enderror

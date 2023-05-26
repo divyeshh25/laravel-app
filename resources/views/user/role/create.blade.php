@@ -40,8 +40,9 @@
                         <span class="float-left"><b>Permisssion:</b></span>
                         <span class="float-right">
                             <input class="form-check-input" id="checkAll" type="checkbox" value=""
-                                onchange="pushToArray('checkAll')">
-                            <label class="form-check-label text-dark text-capitalize" for="checkAll">
+                                onchange="pushToArray('checkAll')"
+                                style="cursor: pointer;">
+                            <label class="form-check-label text-dark text-capitalize" for="checkAll" style="cursor: pointer; user-select: none;">
                                 Check All
                             </label>
                         </span>

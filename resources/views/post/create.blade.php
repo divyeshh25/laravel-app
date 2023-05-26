@@ -21,7 +21,8 @@ $(document).ready(function() {
     height: 150
   });
 });
-$('#addImg').dropify()
+$('#addImg').dropify();
+
 </script>
 @else
     <script>window.location = "/error";</script>

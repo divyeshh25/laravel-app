@@ -90,15 +90,20 @@
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
-                            <tr>
-                                <td>{{ Str::ucfirst($user->name) }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
-                                    @foreach ($user->getRoleNames() as $roleName)
-                                        {{ Str::ucfirst($roleName) }}
-                                    @endforeach
-                                </td>
-                                {{-- <td>
+                            @foreach ($user->roles as $role)
+                                @dd($role);
+                                @if ($role->name == 'admin')
+                                    @continue
+                                @endif
+                                <tr>
+                                    <td>{{ Str::ucfirst($user->name) }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        @foreach ($user->getRoleNames() as $roleName)
+                                            {{ Str::ucfirst($roleName) }}
+                                        @endforeach
+                                    </td>
+                                    {{-- <td>
                                     <div class="form-group clearfix row">
                                         &nbsp;
                                         <div class="icheck-primary d-inline cols">
@@ -130,22 +135,23 @@
                                         </div>
                                     </div>
                                 </td> --}}
-                                @canany(['edit user', 'delete user'])
-                                    <td class="flex">
-                                        @can('edit user')
-                                            <span data-id="{{ $user->id }}" id="viewEdit"
-                                                style="cursor:pointer;border:none"><i
-                                                    class="fas fa-pencil text-primary"></i></span>
-                                        @endcan
-                                        @can('delete user')
-                                            <span class="mx-2" data-id="{{ $user->id }}" id="delete"
-                                                style="cursor:pointer;border:none"><i
-                                                    class="fas fa-trash text-danger"></i></span>
-                                        @endcan
+                                    @canany(['edit user', 'delete user'])
+                                        <td class="flex">
+                                            @can('edit user')
+                                                <span data-id="{{ $user->id }}" id="viewEdit"
+                                                    style="cursor:pointer;border:none"><i
+                                                        class="fas fa-pencil text-primary"></i></span>
+                                            @endcan
+                                            @can('delete user')
+                                                <span class="mx-2" data-id="{{ $user->id }}" id="delete"
+                                                    style="cursor:pointer;border:none"><i
+                                                        class="fas fa-trash text-danger"></i></span>
+                                            @endcan
 
-                                    </td>
-                                @endcanany
-                            </tr>
+                                        </td>
+                                    @endcanany
+                                </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>

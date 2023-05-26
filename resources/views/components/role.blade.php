@@ -10,8 +10,9 @@
                             @if($pageName == 'edit')
                             @foreach ($role as $per)
                             {{ $per->name == $permission->name ? 'checked' : '' }} @endforeach
-                            @endif>
-                        <label class="form-check-label text-dark text-capitalize">
+                            @endif
+                            style="cursor: pointer;">
+                        <label class="form-check-label text-dark text-capitalize" for="{{ str_replace(' ', '-', $permission->name) }}" style="cursor: pointer; user-select: none;">
                             {{ $permission->name }}
                         </label>
                     </div>

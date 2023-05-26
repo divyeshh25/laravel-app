@@ -100,3 +100,5 @@ Route::post('/updatePermission/{id}',[RoleController::class,'updatePermission'])
 Route::get('error',function(){
 return view('errors.403');
 });
+
+Route::get('publish-notify', [UserController::class, 'index']);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BlogPost;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
+use App\Notifications\PublishNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,14 +51,18 @@ class PostController extends Controller
         ];
         if (!isset($request->addStatus)) {
             $data['status'] = 1;
-        }else{
+        } else {
             $data['status'] = $request->addStatus;
         }
         $post = Post::create($data);
         session()->flash('successPost', 'Post Added');
+
+        if ($data['status'] == 1) {
+            app('App\Http\Controllers\PostMailController')->index($request->addTitle, Auth::user()->email, 'posts/' . $post->id . '/edit');
+        } else {
+            app('App\Http\Controllers\PublishPostController')->index($post->id);
+        }
         $posts = Post::with('category', 'user')->get();
-        app('App\Http\Controllers\PostMailController')
-        ->index($request->addTitle,Auth::user()->email,'posts/'.$post->id.'/edit');
         return view('post.index', compact('posts'));
     }
 
@@ -117,6 +123,10 @@ class PostController extends Controller
         }
         $post->save();
         session()->flash('successPost', 'Post Update');
+
+        if ($post->status == 0) {
+            app('App\Http\Controllers\PublishPostController')->index($post->id);
+        }
         $posts = Post::with('category', 'user')->get();
         return redirect('/posts')->with(compact('posts'));
     }
@@ -133,6 +143,9 @@ class PostController extends Controller
     public function updateStatus(Post $post)
     {
         $post->update(['status' => request()->status]);
+        if ($post->status == 0) {
+            app('App\Http\Controllers\PublishPostController')->index($post->id);
+        }
         session()->flash('successPost', 'Status Update');
     }
 }

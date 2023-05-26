@@ -65,7 +65,7 @@
                 @if(auth()->user()->hasAnyPermission(['list post', 'write post', 'edit post', 'delete post','publish post']))
                 <li class="nav-item">
                     <a href="{{ route('posts.index') }}"
-                        class="nav-link {{ Route::is('posts.index') ? 'active' : '' }}">
+                        class="nav-link {{ Str::contains(url()->current(),'posts') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             Post
@@ -87,7 +87,7 @@
                 @if(auth()->user()->hasAnyPermission(['list role', 'add role', 'edit role', 'delete role']))
                 <li class="nav-item">
                     <a href="{{ route('roles.index') }}"
-                        class="nav-link {{ Route::is('roles.index') ? 'active' : '' }}">
+                        class="nav-link {{ Str::contains(url()->current(),'roles') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             Role & Permission
