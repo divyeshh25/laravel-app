@@ -60,7 +60,7 @@
         <div class="form-group">
             <label for="">Related Image</label>
             <input type="file" class="form-control" name="{{ $iDName }}Img" id="{{ $iDName }}Img"
-                placeholder="Enter Title" >
+                placeholder="Enter Title" value="{{ old($iDName.'Img') }}">
             @error($iDName . 'Img')
                 <p class="text-sm text-danger ">{{ $message }}</p>
             @enderror

@@ -98,7 +98,7 @@
                         <ul class="list-unstyled widget-list">
                             @foreach ($categories as $category)
                                 <li><a href="/category/{{ $category->id }}" class="d-flex">{{ $category->name }}
-                                        <small class="ml-auto">({{ count($category->posts) }})</small></a>
+                                        <small class="ml-auto">({{ count($category->posts->where('status','0')) }})</small></a>
                                 </li>
                             @endforeach
                         </ul>

@@ -87,21 +87,10 @@ class UserController extends Controller
         $user->delete();
         // session()->flash('success', "Category Delete");
     }
-    public function updateStatus(Request $request, string $id)
+    public function updateStatus(User $user)
     {
-        $user = User::find($id);
-        $permissions = $user->getPermissionsViaRoles();
-        if (!$permissions->contains('name', $request->value)) {
-            if ($request->status == 'add') {
-                $user->givePermissionTo($request->value);
-                session()->flash('successUser', ucfirst($user->name) . ' have permission to ' . strtoupper($request->value));
-            } else {
-                $user->revokePermissionTo($request->value);
-                session()->flash('successUser', ucfirst($user->name) . ' have remove permission to ' . strtoupper($request->value));
-            }
-        }
-        else {
-            session()->flash('successUser', 'You can not edit this permission bcz this permission via role');
-        }
+        $user->verified = 1;
+        $user->update();
+        return redirect('/login');
     }
 }

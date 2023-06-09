@@ -76,7 +76,7 @@
                     </div>
                 </div>
 
-                @foreach ($category->posts as $post)
+                @foreach ($category->posts->where('status','0') as $post)
                     <div class="col-lg-4 col-sm-6 mb-4">
                         <article class="mb-5">
                             <div class="post-slider slider-sm">

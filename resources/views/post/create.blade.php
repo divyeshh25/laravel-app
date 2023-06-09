@@ -14,14 +14,15 @@
         </div>
     </div>
 </section>
-
 <script>
 $(document).ready(function() {
   $('#addBody').summernote({
     height: 150
   });
 });
+
 $('#addImg').dropify();
+$('#addImg').attr("data-default-file", "{{ old('addImg') }}");
 
 </script>
 @else

@@ -86,12 +86,20 @@
                         <h3 id="blockquote" style="text-align:right;">
                             <span>
                                 <button class="btn btn-success" id="like">
-                                    <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
-                                    {{ count($post->likes->where('status', 0)) }}
+                                    <span>
+                                        <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="LikeCount">
+                                        {{ count($post->likes->where('status', 0)) }}
+                                    </span>
                                 </button>
                                 <button class="btn btn-danger" id="dislike">
-                                    <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
-                                    {{ count($post->likes->where('status', 1)) }}
+                                    <span>
+                                        <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i>
+                                    </span>
+                                    <span id="DisLikeCount">
+                                        {{ count($post->likes->where('status', 1)) }}
+                                    </span>
                                 </button>
                             </span>
 
@@ -153,7 +161,8 @@
                 },
                 cache: false,
                 success: function(dataResult) {
-                    window.location.reload();
+                    $('#LikeCount').html(dataResult.like);
+                    $('#DisLikeCount').html(dataResult.dislike);
                 },
                 error: function(dataResult) {
                     if (dataResult.status == 401) {
@@ -174,7 +183,9 @@
                 },
                 cache: false,
                 success: function(dataResult) {
-                    window.location.reload();
+                    // console.log(dataResult);
+                    $('#LikeCount').html(dataResult.like);
+                    $('#DisLikeCount').html(dataResult.dislike);
                 },
                 error: function(dataResult) {
                     if (dataResult.status == 401) {

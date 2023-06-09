@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RegisterController;
@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,9 +52,9 @@ Route::get('category/{category}',function(Category $category){
 
 
 //Mian Page Routes
-Route::get('/login',[LoginController::class, 'load'])->name('login');
+Route::get('/login',[LoginController::class,'load'])->middleware('guest')->name('login');
 
-Route::post('login',[LoginController::class,'check']);
+Route::post('login',[LoginController::class,'check'])->middleware('guest');
 
 Route::get('register',function(){
     return view('login.register');
@@ -80,25 +81,53 @@ Route::get('dashboard',function(){
 ->name('dashboard');
 
 //Users , Category , roles Routes
+Route::middleware('auth')->group(function () {
+    Route::resource('categories',CategoryController::class)->middleware(['category']);
+    Route::resource('posts',PostController::class)->middleware(['post']);
+    Route::resource('users',UserController::class)->middleware(['user']);
+    Route::resource('roles',RoleController::class)->middleware(['role']);
+    Route::resource('likes',LikeController::class);
 
-Route::resource('categories',CategoryController::class)->middleware(['auth','category']);
-Route::resource('posts',PostController::class)->middleware(['auth','post']);
-Route::resource('users',UserController::class)->middleware(['auth','user']);
-Route::resource('roles',RoleController::class)->middleware(['auth','role']);
+    Route::post('/updateCategoryStatus/{category}',[CategoryController::class,'updateStatus'])
+        ->middleware(['category']);
+    //update post status
+    Route::post('/updatePostStatus/{post}',[PostController::class,'updateStatus'])
+        ->middleware(['post']);
+    //update status of roles
+    Route::post('/updateStatus',[UserController::class,'updateStatus'])
+        ->middleware(['user']);
+    //update status of permission
+    Route::post('/updatePermission/{id}',[RoleController::class,'updatePermission'])
+        ->middleware(['role']);
+});
+
 
 Route::resource('comments',CommentController::class);
-Route::resource('likes',LikeController::class)->middleware('auth');
 //update catregory status
-Route::post('/updateCategoryStatus/{category}',[CategoryController::class,'updateStatus'])->middleware(['auth','category']);
-//update post status
-Route::post('/updatePostStatus/{post}',[PostController::class,'updateStatus'])->middleware(['auth','post']);;
-//update status of roles
-Route::post('/updateStatus/{id}',[UserController::class,'updateStatus'])->middleware(['auth','user']);
-//update status of permission
-Route::post('/updatePermission/{id}',[RoleController::class,'updatePermission'])->middleware(['auth','role']);
+
 
 Route::get('error',function(){
 return view('errors.403');
 });
 
 Route::get('publish-notify', [UserController::class, 'index']);
+
+// Route::get('/verify/{user}',function(User $user){
+//     return view('verify',compact('user'));
+// });
+// Route::get('/verifyaccount/{user}',function(User $user){
+
+//     return redirect("/login")->with('successLogin','');
+// });
+
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->name('verification.notice');
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    // [PostController::class, 'show'];
+    return redirect('/');
+})->middleware('signed')->name('verification.verify');

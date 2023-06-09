@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\RegisterModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+
 
 class RegisterController extends Controller
 {
@@ -15,9 +17,16 @@ class RegisterController extends Controller
             'email'=>'required|email|unique:users,email',
             'password'=>'required|min:8|max:24|same:retype',
         ]);
-        $save = User::create($data);
-        if($save){
-            return redirect("/login")->with('successLogin','');
-        }
+        $user = User::create($data);
+        auth()->login($user);
+        event(new Registered($user));
+        return view('notVerify');
+        // app('App\Http\Controllers\PublishPostController')->verify($save);
+        // if($save){
+        //     if($save->verified == 0)
+        //     {
+        //         return view('notVerify');
+        //     }
+        // }
     }
 }

@@ -60,7 +60,7 @@ class PostController extends Controller
         if ($data['status'] == 1) {
             app('App\Http\Controllers\PostMailController')->index($request->addTitle, Auth::user()->email, 'posts/' . $post->id . '/edit');
         } else {
-            app('App\Http\Controllers\PublishPostController')->index($post->id);
+            app('App\Http\Controllers\PublishPostController')->index($post);
         }
         $posts = Post::with('category', 'user')->get();
         return view('post.index', compact('posts'));
@@ -125,7 +125,7 @@ class PostController extends Controller
         session()->flash('successPost', 'Post Update');
 
         if ($post->status == 0) {
-            app('App\Http\Controllers\PublishPostController')->index($post->id);
+            app('App\Http\Controllers\PublishPostController')->index($post);
         }
         $posts = Post::with('category', 'user')->get();
         return redirect('/posts')->with(compact('posts'));
@@ -144,7 +144,7 @@ class PostController extends Controller
     {
         $post->update(['status' => request()->status]);
         if ($post->status == 0) {
-            app('App\Http\Controllers\PublishPostController')->index($post->id);
+            app('App\Http\Controllers\PublishPostController')->index($post);
         }
         session()->flash('successPost', 'Status Update');
     }

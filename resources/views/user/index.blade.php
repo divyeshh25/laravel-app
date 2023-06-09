@@ -91,7 +91,6 @@
                     <tbody>
                         @foreach ($users as $user)
                             @foreach ($user->roles as $role)
-                                @dd($role);
                                 @if ($role->name == 'admin')
                                     @continue
                                 @endif

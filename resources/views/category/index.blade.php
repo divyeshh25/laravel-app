@@ -32,7 +32,7 @@
                             <th>Id</th>
                             <th>Name</th>
                             <th>Created By</th>
-                            @canany(['edit category','add category'])
+                            @canany(['edit category', 'add category'])
                                 <th>Status</th>
                             @endcanany
                             @canany(['edit category', 'delete category'])
@@ -48,12 +48,17 @@
                                 <td>{{ $category->user->name }}</td>
 
                                 {{-- <td>{{ $category->status == 0 ? 'Active' : 'Inactive' }}</td> --}}
-                                @canany(['edit category','add category'])
+                                @canany(['edit category', 'add category'])
                                     <td>
                                         <p>
                                             <input type="checkbox" id="switch-{{ $category->id }}" switch="bool"
                                                 {{ $category->status == 0 ? 'checked' : '' }}
-                                                onchange="check('switch-{{ $category->id }}')" />
+                                                onchange="check('switch-{{ $category->id }}')"
+                                                @can('edit category')
+                                                    @disabled(false)
+                                                @else
+                                                    @disabled(true)
+                                                @endcan>
                                             <label for="switch-{{ $category->id }}" data-on-label="Active"
                                                 data-off-label="Inactive"></label>
                                         </p>
@@ -147,7 +152,6 @@
 
         // View Edit Modal
         $(document).on('click', '#viewEdit', function() {
-            console.log('enter');
             var id = $(this).attr("data-id");
             var url = "{{ route('categories.edit', '/id') }}";
             url = url.replace('/id', id);
@@ -171,6 +175,7 @@
         $('#btnEdit').on('click', function() {
             var id = $(this).val();
             var name = $("#name2").val();
+            console.log(name);
             var status = $("input[name='status2']:checked").val();
             var url = "{{ route('categories.update', '/id') }}";
             url = url.replace('/id', id);
